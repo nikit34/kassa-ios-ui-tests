@@ -1,0 +1,12 @@
+stages:
+  - compile
+
+
+compile_job:
+  stage: compile
+  tags:
+    - ios-host-1
+  script:
+    - xcodebuild -project /usr/local/lib/node_modules/appium/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner test -allowProvisioningUpdates -destination "id=$IOS_ID_SIMULATOR"
+  after_script:
+    - python3 telegram_bot/client.py -n compile_job

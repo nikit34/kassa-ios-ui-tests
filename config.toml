@@ -1,0 +1,13 @@
+concurrent = 3
+
+[session_server]
+  listen_address = "[::]:4723"
+  listen_address = "[::]:8080"
+  listen_address = "[::]:8100"
+[[runners]]
+  output_limit = 34359738368
+  limit = 5
+  request_concurrency = 3
+  environment = ["GIT_DEPTH=1"]
+  environment = ["DOCKER_DRIVER=overlay2"]
+
