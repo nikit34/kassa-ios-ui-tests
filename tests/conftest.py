@@ -15,22 +15,22 @@ from testrail_logging import Testrail
 from db.db_logging import connect_db, disconnect_db
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        '--host', action='store_true', default=False, help='locally or server running'
-    )
-
-def pytest_configure():
-    connect_db()
-    Testrail.logging_start()
-    pytest.count_call_unique_func = 0
-
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
-    outcome = yield
-    result = outcome.get_result()
-    if result.when == 'call':
-        Testrail.logging_step(result.outcome, result.nodeid, result.duration)
+# def pytest_addoption(parser):
+#     parser.addoption(
+#         '--host', action='store_true', default=False, help='locally or server running'
+#     )
+#
+# def pytest_configure():
+#     connect_db()
+#     Testrail.logging_start()
+#     pytest.count_call_unique_func = 0
+#
+# @pytest.hookimpl(tryfirst=True, hookwrapper=True)
+# def pytest_runtest_makereport(item, call):
+#     outcome = yield
+#     result = outcome.get_result()
+#     if result.when == 'call':
+#         Testrail.logging_step(result.outcome, result.nodeid, result.duration)
 
 @pytest.fixture(scope='function')
 def driver_noCache(request):
@@ -56,8 +56,8 @@ def driver(request):
     yield driver
     driver.quit()
 
-@pytest.fixture(scope='session')
-def db_session(request):
-    yield
-    disconnect_db()
+# @pytest.fixture(scope='session')
+# def db_session(request):
+#     yield
+#     disconnect_db()
 
