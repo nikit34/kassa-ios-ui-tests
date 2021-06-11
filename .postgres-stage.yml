@@ -8,6 +8,7 @@ postgres_job:
   tags:
     - ios-host-1
   before_script:
+    - export COMPOSE_HTTP_TIMEOUT=200
     - docker-compose -f ./db/docker-compose.yml up -d || true
   script:
     - docker exec postgres_container bash -c 'psql -h localhost -U n.permyakov postgres -f create_database.sql'
