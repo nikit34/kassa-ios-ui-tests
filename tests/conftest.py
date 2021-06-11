@@ -20,11 +20,11 @@ def pytest_addoption(parser):
         '--host', action='store_true', default=False, help='locally or server running'
     )
 
-#
-# def pytest_configure():
-#     connect_db()
-#     Testrail.logging_start()
-#     pytest.count_call_unique_func = 0
+
+def pytest_configure():
+    connect_db()
+    Testrail.logging_start()
+    pytest.count_call_unique_func = 0
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
@@ -61,8 +61,8 @@ def driver(request):
     driver.quit()
 
 
-# @pytest.fixture(scope='session')
-# def db_session(request):
-#     yield
-#     disconnect_db()
+@pytest.fixture(scope='session')
+def db_session(request):
+    yield
+    disconnect_db()
 
