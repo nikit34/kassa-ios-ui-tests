@@ -19,10 +19,7 @@ grafana_job:
   stage: grafana
   tags:
     - ios-host-1
-  before_script:
-    - python3 db/autorecovery.py
   script:
-    - docker exec postgres_container bash -c 'psql -h localhost -U n.permyakov postgres -f create_database.sql'
-    - docker exec postgres_container bash -c 'psql -h localhost -U n.permyakov metric_autotests -f create_tables.sql'
+    - python3 db/autorecovery.py
   after_script:
     - python3 telegram_bot/client.py -n grafana_job
