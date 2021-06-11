@@ -122,6 +122,7 @@ install_job:
     - rm -r ./app/Kassa.app && mkdir -p ./app/Kassa.app || mkdir -p ./app/Kassa.app || true
     - xcrun simctl privacy booted grant all $BOUNDLE_ID
   script:
+    - ls ./project
     - xcodebuild -workspace ./project/Kassa2.0.xcworkspace -scheme Kassa2.0 build -allowProvisioningUpdates -destination "id=$IOS_ID_SIMULATOR"
     - find /Users/jira.bot.kasmain/Library/Developer/XCode/DerivedData -type d -name Kassa.app -exec cp -R "{}" ./app \;
     - xcrun simctl install booted ./app/Kassa.app
