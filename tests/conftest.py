@@ -20,10 +20,12 @@ def pytest_addoption(parser):
         '--host', action='store_true', default=False, help='locally or server running'
     )
 
+
 def pytest_configure():
     connect_db()
     Testrail.logging_start()
     pytest.count_call_unique_func = 0
+
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
@@ -31,6 +33,7 @@ def pytest_runtest_makereport(item, call):
     result = outcome.get_result()
     if result.when == 'call':
         Testrail.logging_step(result.outcome, result.nodeid, result.duration)
+
 
 @pytest.fixture(scope='function')
 def driver_noCache(request):
@@ -44,6 +47,7 @@ def driver_noCache(request):
     yield driver
     driver.quit()
 
+
 @pytest.fixture(scope='function')
 def driver(request):
     if request.config.getoption('--host'):
@@ -55,6 +59,7 @@ def driver(request):
     driver.wait = WebDriverWait(driver, 5)
     yield driver
     driver.quit()
+
 
 @pytest.fixture(scope='session')
 def db_session(request):
