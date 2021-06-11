@@ -1,8 +1,8 @@
 stages:
   - intro
   - clear
-  - clone
-  - build
+#  - clone
+#  - build
 #  - environment
 #  - install
 #  - setup
@@ -49,49 +49,49 @@ clear_job:
   after_script:
     - python3 telegram_bot/client.py -n clear_job
 
-app_job:
-  stage: clone
-  tags:
-    - ios-host
-  variables:
-    PROJECT_REPO: "git@gitlab.rambler.ru:ramblerco-ios/kassa2.0.git"
-  before_script:
-    - yes | rm -r ./project && mkdir ./project || mkdir ./project || true
-    - yes | rm -r /Users/jira.bot.kasmain/Library/Developer/XCode/DerivedData/* || mkdir -p Users/jira.bot.kasmain/Library/Developer/XCode/DerivedData || true
-  script:
-    - git clone --branch develop $PROJECT_REPO project
-    - cd project
-    - eval "$(ssh-agent -s)"
-    - ssh-add ~/.ssh/id_rsa
-    - pod install --repo-update
-    - killall ssh-agent
-  after_script:
-    - python3 telegram_bot/client.py -n app_job
-  cache:
-    untracked: true
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - ./project
-    policy: push
-  retry: 2
-  rules:
-    - if: '$WITHOUT_TESTS != "True"'
-
-build_job:
-  stage: build
-  tags:
-    - ios-host
-  before_script:
-    - open -a Simulator --args -CurrentDeviceUDID $IOS_ID_SIMULATOR
-  script:
-    - security unlock-keychain -p $IOS_HOST_PASSWORD  # this variable in settings of gitlab.rambler.ru
-    - xcodebuild -project /usr/local/lib/node_modules/appium/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj -scheme IntegrationApp build -allowProvisioningUpdates -destination "id=$IOS_ID_SIMULATOR"
-    - xcodebuild -project /usr/local/lib/node_modules/appium/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner build -allowProvisioningUpdates -destination "id=$IOS_ID_SIMULATOR"
-  after_script:
-    - python3 telegram_bot/client.py -n build_job
-  rules:
-    - if: '$WITHOUT_TESTS != "True"'
-
+#app_job:
+#  stage: clone
+#  tags:
+#    - ios-host
+#  variables:
+#    PROJECT_REPO: "git@gitlab.rambler.ru:ramblerco-ios/kassa2.0.git"
+#  before_script:
+#    - yes | rm -r ./project && mkdir ./project || mkdir ./project || true
+#    - yes | rm -r /Users/jira.bot.kasmain/Library/Developer/XCode/DerivedData/* || mkdir -p Users/jira.bot.kasmain/Library/Developer/XCode/DerivedData || true
+#  script:
+#    - git clone --branch develop $PROJECT_REPO project
+#    - cd project
+#    - eval "$(ssh-agent -s)"
+#    - ssh-add ~/.ssh/id_rsa
+#    - pod install --repo-update
+#    - killall ssh-agent
+#  after_script:
+#    - python3 telegram_bot/client.py -n app_job
+#  cache:
+#    untracked: true
+#    key: ${CI_COMMIT_REF_SLUG}
+#    paths:
+#      - ./project
+#    policy: push
+#  retry: 2
+#  rules:
+#    - if: '$WITHOUT_TESTS != "True"'
+#
+#build_job:
+#  stage: build
+#  tags:
+#    - ios-host
+#  before_script:
+#    - open -a Simulator --args -CurrentDeviceUDID $IOS_ID_SIMULATOR
+#  script:
+#    - security unlock-keychain -p $IOS_HOST_PASSWORD  # this variable in settings of gitlab.rambler.ru
+#    - xcodebuild -project /usr/local/lib/node_modules/appium/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj -scheme IntegrationApp build -allowProvisioningUpdates -destination "id=$IOS_ID_SIMULATOR"
+#    - xcodebuild -project /usr/local/lib/node_modules/appium/node_modules/appium-webdriveragent/WebDriverAgent.xcodeproj -scheme WebDriverAgentRunner build -allowProvisioningUpdates -destination "id=$IOS_ID_SIMULATOR"
+#  after_script:
+#    - python3 telegram_bot/client.py -n build_job
+#  rules:
+#    - if: '$WITHOUT_TESTS != "True"'
+#
 #compile_job:
 #  stage: environment
 #  trigger:
