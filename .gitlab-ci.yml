@@ -67,7 +67,7 @@ app_job:
     - yes | rm -r /Users/jira.bot.kasmain/Library/Developer/XCode/DerivedData/* || mkdir -p Users/jira.bot.kasmain/Library/Developer/XCode/DerivedData || true
   script:
     - eval "$(ssh-agent -s)"
-    - echo $IOS_HOST_PASSWORD | ssh-add ~/.ssh/id_rsa
+    - echo $IOS_HOST_PASSWORD | tr -d '\r' | ssh-add ~/.ssh/id_rsa
     - git clone --branch develop $PROJECT_REPO project
     - cd project
     - pod install --repo-update
