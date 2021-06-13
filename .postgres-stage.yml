@@ -9,6 +9,7 @@ postgres_job:
     - ios-host-1
   before_script:
     - export COMPOSE_HTTP_TIMEOUT=200
+    - lsof -P | grep ':5432' | awk '{print $2}' | xargs kill -9 || true
     - docker-compose -f ./db/docker-compose.yml up -d || true
   script:
     - docker exec postgres_container bash -c 'psql -h localhost -U n.permyakov postgres -f create_database.sql'
