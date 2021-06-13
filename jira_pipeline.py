@@ -32,7 +32,10 @@ def get_sprint_id():
         print(f'[ERROR] get_sprint_id -> GET request failed\nstatus code: {response.status_code}',
               error)
         error.args += (f'get_sprint_id: {response.status_code}',)
-    values_sprints = response.json()['values']
+    try:
+        values_sprints = response.json()['values']
+    except KeyError as error:
+        raise KeyError('[ERROR] Sprint id doesnt received', error)
     max_num_sprint = 0
     current_id = 0
     for sprint in values_sprints:
