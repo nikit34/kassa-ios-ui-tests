@@ -22,13 +22,6 @@ workflow:
     - when: always
 
 
-cache: &global_cache
-  key: ${CI_COMMIT_REF_SLUG}
-  paths:
-    - project
-  policy: pull-push
-
-
 telegram_job:
   stage: intro
   tags:
@@ -141,7 +134,10 @@ install_job:
       - ./app/Kassa.app
     expire_in: 3 days
   cache:
-    <<: *global_cache
+    untracked: true
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - ./project
     policy: pull
   rules:
     - if: '$WITHOUT_TESTS != "True"'
