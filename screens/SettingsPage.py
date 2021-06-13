@@ -44,5 +44,4 @@ class SettingsPage(RecordTimeout, Wait):
             else:
                 assert switcher.text == '0', f'invalid state {switcher.text} != 0  on {switcher}'
         except AssertionError as error:
-            error = base_error(self.driver, error, *locator, crash_site='check_state_switcher', msg=f'invalid state {switcher.text} != 1 on {switcher}')
-            raise error
+            raise base_error(self.driver, error, *locator, crash_site='check_state_switcher', msg=f'invalid state {switcher.text} != 1 on {switcher}')
