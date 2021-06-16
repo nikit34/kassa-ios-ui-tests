@@ -61,7 +61,7 @@ app_job:
   script:
     - eval "$(ssh-agent -s)"
     - echo $IOS_HOST_PASSWORD | tr -d '\r' | ssh-add ~/.ssh/id_rsa
-    - echo $IOS_HOST_PASSWORD | git clone --branch develop $PROJECT_REPO project
+    - git clone --branch develop $PROJECT_REPO project
     - cd project
     - pod install --repo-update
   after_script:
