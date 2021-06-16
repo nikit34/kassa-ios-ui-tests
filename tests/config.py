@@ -32,7 +32,7 @@ DESIRED_CAPS_NO_CACHE_LOCAL = {
     'noReset': False,
     'wdaLocalPort': 8100,
     'wdaBaseUrl': 'http://localhost',
-    'app': '/Users/n.permyakov/kassa/kassa-ui-tests/app/Kassa.app',  # local
+    'app': '/Users/n.permyakov/kassa/ios-ui-tests/app/Kassa.app',  # local
 }
 
 DESIRED_CAPS_LOCAL = {
@@ -44,7 +44,7 @@ DESIRED_CAPS_LOCAL = {
     'noReset': True,
     'wdaLocalPort': 8100,
     'wdaBaseUrl': 'http://localhost',
-    'app': '/Users/n.permyakov/kassa/kassa-ui-tests/app/Kassa.app',  # local
+    'app': '/Users/n.permyakov/kassa/ios-ui-tests/app/Kassa.app',  # local
 }
 
 

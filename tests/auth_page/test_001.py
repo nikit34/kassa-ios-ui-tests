@@ -104,8 +104,8 @@ class Test_002_AuthPage:
             self.auth_page = AuthPage(driver)
             self.auth_page.set_custom_wait(20)
             self.auth_page.click(*self.auth_locators.btn_onboarding_login)
-            self.auth_page.input('n.permyakov-rambler@yandex.ru', *self.auth_locators.input_login_email)
-            self.auth_page.input(os.environ['USER_PASSWORD'], *self.auth_locators.input_login_password)
+            self.auth_page.input('n.permyakov@rambler-co.ru', *self.auth_locators.input_login_email)
+            self.auth_page.input(os.environ['IOS_HOST_PASSWORD'], *self.auth_locators.input_login_password)
             self.auth_page.click(*self.auth_locators.btn_login)
         with allure.step('AuthPage'):
             self.profile_page = ProfilePage(driver)
