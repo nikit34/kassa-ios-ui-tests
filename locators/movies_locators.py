@@ -26,3 +26,10 @@ class MoviesPageLocators(MobileBy):
         self.img_row_premiers = (self.ACCESSIBILITY_ID, 'PremiereCollectionCell.0.overlayView')
         self.btn_popup_next = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`label == "ПОНЯТНО"`]')
         self.text_popup_header = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`label == "Топовые события"`]')
+        self.btn_try_yet = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`label == "Попробовать ещё раз"`]')
+        self.text_error = (self.ACCESSIBILITY_ID, 'Хьюстон, у нас проблемы!')
+        self.btn_first_under_input_field = (self.ACCESSIBILITY_ID, 'Премьеры')
+        self.btn_first_up_input_field = (self.ACCESSIBILITY_ID, 'КИНО')
+        self.btn_card_price = (self.XPATH, '(//XCUIElementTypeButton[@name="buyButton"])[1]')
+        self.btn_card_release_date = (self.XPATH, '(//XCUIElementTypeStaticText[@name="releaseDateLabel"])[1]')
+

@@ -5,7 +5,7 @@ from allure_commons.types import AttachmentType
 from skimage import io
 import allure
 
-from locators.events_details_locators import EventsDetailsPageLocators
+from locators.movies_details_locators import MoviesDetailsPageLocators
 from locators.popup_locators import PopupLocators
 from utils.factory_screenshots import Screenshot
 from templates.action import Action
@@ -13,7 +13,7 @@ from templates.base import Wait
 from templates.statistic import RecordTimeout
 
 
-class EventsDetailsPage(RecordTimeout, Wait):
+class MoviesDetailsPage(RecordTimeout, Wait):
     def __init__(self, driver):
         super().__init__(driver)
 
@@ -22,15 +22,15 @@ class EventsDetailsPage(RecordTimeout, Wait):
         self.repeat = '0'
         self.extra_interval = 50
 
-        self.events_details_locators = EventsDetailsPageLocators()
+        self.movies_details_locators = MoviesDetailsPageLocators()
         self.popup_locators = PopupLocators()
 
     def set_custom_wait(self, wait):
         self.set_wait(self.driver, wait)
 
     def check_popup(self):
-        self.find_element(*self.events_details_locators.text_popup_header)
-        self.find_element(*self.events_details_locators.btn_popup_next)
+        self.find_element(*self.movies_details_locators.text_popup_header)
+        self.find_element(*self.movies_details_locators.btn_popup_next)
 
     @staticmethod
     def k_means_clustering_average(screenshot):

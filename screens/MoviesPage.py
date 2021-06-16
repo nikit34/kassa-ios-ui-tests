@@ -7,7 +7,7 @@ from app.api import API
 from locators.movies_locators import MoviesPageLocators
 from locators.places_locators import PlacesPageLocators
 from locators.popup_locators import PopupLocators
-from locators.events_details_locators import EventsDetailsPageLocators
+from locators.movies_details_locators import MoviesDetailsPageLocators
 from templates.action import Action
 from templates.base import Wait
 from templates.error import base_error
@@ -24,7 +24,7 @@ class MoviesPage(RecordTimeout, Wait):
         self.extra_interval = 50
 
         self.movies_locators = MoviesPageLocators()
-        self.events_details_locators = EventsDetailsPageLocators()
+        self.movies_details_locators = MoviesDetailsPageLocators()
         self.popup_locators = PopupLocators()
         self.places_locators = PlacesPageLocators()
 
@@ -99,16 +99,16 @@ class MoviesPage(RecordTimeout, Wait):
             sleep(2)
             self.act.swipe(80, 30, 20, 30)
         self.act.click_by_coords(50, 30)
-        name_movie = self.find_element(*self.events_details_locators.text_event_name).text
+        name_movie = self.find_element(*self.movies_details_locators.text_event_name).text
         id_city = API.get_id_city(city)
         session_id = API.get_session_id_movies_featured(name_movie, id_city, _number_place, _number_session)
         response = API.get_json_hall(session_id)
         try:
-            self.click(*self.events_details_locators.btn_back)
+            self.click(*self.movies_details_locators.btn_back)
             return response['covidNotification']
         except KeyError:
             _number_slide += 1
-            self.click(*self.events_details_locators.btn_back)
+            self.click(*self.movies_details_locators.btn_back)
             return self.get_json_covid_notification(city=city, _number_slide=_number_slide, _number_place=_number_place, _number_session=_number_session)
 
 

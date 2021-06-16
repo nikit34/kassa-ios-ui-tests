@@ -3,13 +3,13 @@ import allure
 from selenium.common.exceptions import NoSuchElementException, InvalidSessionIdException
 
 from locators.browser_locators import BrowserLocators
-from locators.events_details_locators import EventsDetailsPageLocators
+from locators.movies_details_locators import MoviesDetailsPageLocators
 from locators.movies_locators import MoviesPageLocators
 from locators.info_locators import InfoPageLocators
 from screens.MoviesPage import MoviesPage
 from screens.InfoPage import InfoPage
 from screens.OnboardingPage import OnboardingPage
-from screens.EventDetailsPage import EventsDetailsPage
+from screens.MoviesDetailsPage import MoviesDetailsPage
 from screens.BrowserPage import BrowserPage
 from locators.seat_selection_locators import SeatSelectionLocators
 from screens.SeatSelectionPage import SeatSelectionPage
@@ -23,7 +23,7 @@ class Test_001_InfoPage:
     def setup_class(cls):
         cls.movies_locators = MoviesPageLocators()
         cls.info_locators = InfoPageLocators()
-        cls.event_detail_page_locators = EventsDetailsPageLocators()
+        cls.event_detail_page_locators = MoviesDetailsPageLocators()
 
     def test_001_session(self, driver):
         """тапнуть на любой сеанс на экране"""
@@ -39,7 +39,7 @@ class Test_001_InfoPage:
             assert len(covid_info) == 5, '[FAILED] covid information has not been added'
             self.movie_page.act.click_by_coords(50, 30)
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
@@ -57,7 +57,7 @@ class Test_002_InfoPage:
         cls.movies_locators = MoviesPageLocators()
         cls.seat_selection_locators = SeatSelectionLocators()
         cls.info_locators = InfoPageLocators()
-        cls.event_detail_page_locators = EventsDetailsPageLocators()
+        cls.event_detail_page_locators = MoviesDetailsPageLocators()
         cls.browser_locators = BrowserLocators()
 
     def test_002_cancel(self, driver):
@@ -68,7 +68,7 @@ class Test_002_InfoPage:
             covid_info = self.movie_page.get_json_covid_notification(city='Москва')
             assert len(covid_info) == 5, '[FAILED] covid information has not been added'
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
@@ -89,7 +89,7 @@ class Test_002_InfoPage:
             covid_info = self.movie_page.get_json_covid_notification(city='Москва')
             assert len(covid_info) == 5, '[FAILED] covid information has not been added'
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
@@ -110,7 +110,7 @@ class Test_002_InfoPage:
             covid_info = self.movie_page.get_json_covid_notification(city='Москва')
             assert len(covid_info) == 5, '[FAILED] covid information has not been added'
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
@@ -135,7 +135,7 @@ class Test_002_InfoPage:
             covid_info = self.movie_page.get_json_covid_notification(city='Москва')
             assert len(covid_info) == 5, '[FAILED] covid information has not been added'
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)

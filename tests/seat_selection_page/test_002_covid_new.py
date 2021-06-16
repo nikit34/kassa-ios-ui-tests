@@ -2,7 +2,7 @@ import pytest
 import allure
 
 from locators.browser_locators import BrowserLocators
-from locators.events_details_locators import EventsDetailsPageLocators
+from locators.movies_details_locators import MoviesDetailsPageLocators
 from locators.movies_locators import MoviesPageLocators
 from locators.info_locators import InfoPageLocators
 from locators.seat_selection_locators import SeatSelectionLocators
@@ -20,7 +20,7 @@ class Test_001_InfoPage:
         cls.movies_locators = MoviesPageLocators()
         cls.seat_selection_locators = SeatSelectionLocators()
         cls.info_locators = InfoPageLocators()
-        cls.event_detail_page_locators = EventsDetailsPageLocators()
+        cls.event_detail_page_locators = MoviesDetailsPageLocators()
         cls.browser_locators = BrowserLocators()
 
     def test_001_any_session(self, driver):

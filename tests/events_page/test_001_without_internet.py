@@ -4,15 +4,12 @@ from time import sleep
 import pytest
 import allure
 
-from screens.EventsPage import EventsPage
 from screens.MoviesPage import MoviesPage
 from screens.TicketsDetailsPage import TicketsDetailsPage
 from screens.TicketsPage import TicketsPage
 from locators.tickets_locators import TicketsPageLocators
 from locators.tickets_details_locators import TicketsDetailsPageLocators
-from locators.events_locators import EventsPageLocators
 from locators.common_locators import CommonLocators
-from locators.movies_locators import MoviesPageLocators
 
 
 @pytest.mark.skip(reason="need ticket")
@@ -23,8 +20,6 @@ class Test_001_EventsPage:
     def setup_class(cls):
         cls.common_locators = CommonLocators()
         cls.tickets_locators = TicketsPageLocators()
-        cls.movie_locators = MoviesPageLocators()
-        cls.movies_locators = EventsPageLocators()
         cls.tickets_details_locators = TicketsDetailsPageLocators()
 
     @classmethod
@@ -39,11 +34,8 @@ class Test_001_EventsPage:
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(20)
             self.movie_page.click(*self.common_locators.tab_search)
-        with allure.step('EventsPage'):
-            self.events_page = EventsPage(driver)
-            self.events_page.set_custom_wait(20)
-            self.events_page.find_element(*self.events_locators.text_error)
-            self.events_page.find_element(*self.events_locators.btn_try_yet)
+            self.movie_page.find_element(*self.events_locators.text_error)
+            self.movie_page.find_element(*self.events_locators.btn_try_yet)
 
     @pytest.mark.skip(reason="need single user for macos account")
     def test_002_update_with_internet(self, driver):
@@ -54,16 +46,13 @@ class Test_001_EventsPage:
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(20)
             self.movie_page.click(*self.common_locators.tab_search)
-        with allure.step('EventsPage'):
-            self.events_page = EventsPage(driver)
-            self.events_page.set_custom_wait(20)
             sleep(10)
-            self.events_page.click(*self.events_locators.btn_try_yet)
+            self.movie_page.click(*self.events_locators.btn_try_yet)
             sleep(20)
-            self.events_page.find_element(*self.events_locators.btn_card_price)
-            self.events_page.find_element(*self.events_locators.btn_card_release_date)
-            self.events_page.find_element(*self.events_locators.btn_first_up_input_field)
-            self.events_page.find_element(*self.events_locators.btn_first_under_input_field)
+            self.movie_page.find_element(*self.events_locators.btn_card_price)
+            self.movie_page.find_element(*self.events_locators.btn_card_release_date)
+            self.movie_page.find_element(*self.events_locators.btn_first_up_input_field)
+            self.movie_page.find_element(*self.events_locators.btn_first_under_input_field)
 
     def test_003_common_ticket(self, driver):
         """тапнуть на кнопку Билеты в нижнем навбаре"""

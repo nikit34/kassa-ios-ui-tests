@@ -3,11 +3,11 @@ import pytest
 import allure
 
 from app.api import DebugAPI
-from locators.events_details_locators import EventsDetailsPageLocators
+from locators.movies_details_locators import MoviesDetailsPageLocators
 from locators.movies_locators import MoviesPageLocators
 from locators.shedule_locators import ShedulePageLocators
 from screens.MoviesPage import MoviesPage
-from screens.EventDetailsPage import EventsDetailsPage
+from screens.MoviesDetailsPage import MoviesDetailsPage
 from screens.ShedulePage import ShedulePage
 
 
@@ -17,7 +17,7 @@ class Test_001_ShedulePage:
     def setup_class(cls):
         cls.movies_locators = MoviesPageLocators()
         cls.shedule_locators = ShedulePageLocators()
-        cls.event_detail_page_locators = EventsDetailsPageLocators()
+        cls.event_detail_page_locators = MoviesDetailsPageLocators()
 
     @classmethod
     def teardown_class(cls):
@@ -35,7 +35,7 @@ class Test_001_ShedulePage:
             sleep(10)
             self.movie_page.act.click_by_coords(50, 30)
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
         with allure.step('ShedulePage'):
@@ -58,7 +58,7 @@ class Test_001_ShedulePage:
             self.movie_page.act.click_by_coords(50, 30)
             dbg_api = DebugAPI.run(request=False)
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
         with allure.step('ShedulePage'):
@@ -79,7 +79,7 @@ class Test_001_ShedulePage:
             sleep(10)
             self.movie_page.act.click_by_coords(50, 30)
         with allure.step('EventDetailsPage'):
-            self.event_detail_page = EventsDetailsPage(driver)
+            self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
         with allure.step('ShedulePage'):

@@ -1,7 +1,7 @@
 from appium.webdriver.common.mobileby import MobileBy
 
 
-class EventsDetailsPageLocators(MobileBy):
+class MoviesDetailsPageLocators(MobileBy):
     def __init__(self):
         super(MobileBy, self).__init__()
 
