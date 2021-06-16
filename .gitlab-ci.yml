@@ -46,7 +46,6 @@ clear_job:
     - killall Xcode || true
     - killall Appium || true
     - killall Simulator || true
-    - lsof -P | grep ':5432' | awk '{print $2}' | xargs kill -9 || true
   after_script:
     - python3 telegram_bot/client.py -n clear_job
 
