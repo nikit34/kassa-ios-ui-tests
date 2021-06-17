@@ -9,7 +9,6 @@ from locators.common_locators import CommonLocators
 from locators.auth_locators import AuthPageLocators
 from locators.movies_locators import MoviesPageLocators
 from screens.OnboardingPage import OnboardingPage
-from screens.ProfilePage import ProfilePage
 
 
 @allure.feature('noCache')
@@ -94,20 +93,3 @@ class Test_002_AuthPage:
             self.auth_page.find_element(*self.auth_locators.input_vk_login)
             self.auth_page.find_element(*self.auth_locators.input_vk_password)
             self.auth_page.find_element(*self.auth_locators.btn_vk_login)
-
-    def test_005_auth_pass_default(self, driver):
-        with allure.step('MoviesPage'):
-            self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(10)
-            self.movie_page.click(*self.common_locators.tab_profile)
-        with allure.step('AuthPage'):
-            self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(10)
-            self.auth_page.click(*self.auth_locators.btn_onboarding_login)
-            self.auth_page.input('n.permyakov@rambler-co.ru', *self.auth_locators.input_login_email)
-            self.auth_page.input(os.environ['IOS_HOST_PASSWORD'], *self.auth_locators.input_login_password)
-            self.auth_page.click(*self.auth_locators.btn_login)
-        with allure.step('AuthPage'):
-            self.profile_page = ProfilePage(driver)
-            self.profile_page.set_custom_wait(10)
-            self.profile_page.find_element(*self.profile_locators.btn_search_events)
