@@ -6,5 +6,5 @@ class CheckoutPageLocators(MobileBy):
         super(MobileBy, self).__init__()
 
         self.block_ticket = (self.ACCESSIBILITY_ID, 'checkoutOrderDetailsTableCell')
-        self.btn_buy = (self.ACCESSIBILITY_ID, 'continueButton')
+        self.btn_buy = (self.ACCESSIBILITY_ID, 'payButton')
         self.btn_buy_ipay = (self.ACCESSIBILITY_ID, 'applePayButton')

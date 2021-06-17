@@ -62,7 +62,6 @@ class Test_001_OnboardingPage:
             self.onboarding_page.click(*self.popup_locators.btn_allow_once)
             self.onboarding_page.find_element(*self.onboarding_page_locators.btn_pass)
 
-    @pytest.mark.xfail(reason='bug Simulator -> PopupLocators btn allow is not close')
     def test_005_turn_on_notification(self, driver):
         """тапнуть на Включить уведомления"""
         with allure.step('OnboardingPage'):

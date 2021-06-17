@@ -35,12 +35,6 @@ class MoviesPage(RecordTimeout, Wait):
         self.find_element(*self.movies_locators.btn_popup_next)
         self.find_element(*self.movies_locators.text_popup_header)
 
-    def pass_popup(self):
-        try:
-            self.click(*self.movies_locators.btn_popup_next)
-        except AssertionError:
-            pass
-
     def click_random_top_movie(self, border=2):
         rand_index = random.randint(0, border)
         locator = self.movies_locators.img_row_top

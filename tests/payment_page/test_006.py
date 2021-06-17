@@ -25,7 +25,6 @@ class Test_001_PerformancePage:
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
             self.movie_page.proccessing_error()
-            self.movie_page.pass_popup()
             self.movie_page.select_session()
         with allure.step('InfoPage'):
             self.info_page = InfoPage(driver)
