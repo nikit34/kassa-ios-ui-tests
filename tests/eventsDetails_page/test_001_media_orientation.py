@@ -40,8 +40,6 @@ class Test_001_MoviePage:
         with allure.step('MoviesDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(20)
-            self.event_detail_page.click(*self.movies_details_locators.img_gallery)
             sleep(2)
-            self.event_detail_page.act.swipe(50, 20, 50, 80)
             self.event_detail_page.click(*self.movies_details_locators.btn_screen_mode)
             self.event_detail_page.check_video_opened_full_mode()

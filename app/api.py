@@ -62,7 +62,7 @@ class API:
 
 
 def _logging(this, method, url, content=''):
-    path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "../ios-ui-tests")) + '/app/api.log'
+    path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/api.log'
     with open(path_log, 'a+') as f:
         f.write(this + ' ' + method + ' ' + url + ' ' + content + '\n')
 
@@ -71,7 +71,7 @@ class DebugAPI:
     def __init__(self, request=True, response=True):
         self.request = request
         self.response = response
-        self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "../ios-ui-tests")) + '/app/api.log'
+        self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/api.log'
 
     class AddonReqRes:
         def request(self, flow):
