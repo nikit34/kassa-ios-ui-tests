@@ -15,7 +15,7 @@ class MoviesPageLocators(MobileBy):
         self.btn_back = (self.IOS_PREDICATE, 'label == "Назад"')
         self.btn_try_right = (self.ACCESSIBILITY_ID, '**/XCUIElementTypeButton[`label == "Попробовать ещё раз"`]')
         self.img_banner = (self.ACCESSIBILITY_ID, 'bannerImageView')
-        self.img_row_top = (self.ACCESSIBILITY_ID, 'TopEventsCollectionCell.0.imageContentView')
+        self.img_row_top = (self.ACCESSIBILITY_ID, 'PopularEventCollectionCell.0.overlayView')
         self.text_row_popular_title = (self.ACCESSIBILITY_ID, 'PopularEventTableCell.headerView.titleLabel')
         self.text_row_popular_all = (self.ACCESSIBILITY_ID, 'PopularEventTableCell.headerView.allButton')
         self.text_row_popular = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeCell[`name == "PopularEventCollectionCell.0"`]/XCUIElementTypeOther')

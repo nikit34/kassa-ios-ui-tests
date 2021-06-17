@@ -1,6 +1,8 @@
 import pytest
 import os
 from collections import defaultdict
+
+from requests.exceptions import ConnectTimeout
 from testrail_api import TestRailAPI
 
 
@@ -15,19 +17,31 @@ class Testrail:
         pytest.run_id = self.get_run_id(project_id)
 
     def connect_testrail(self):
-        self.client = TestRailAPI('http://testrail.rambler-co.ru/', 'n.permyakov', os.environ['IOS_HOST_PASSWORD'])
+        try:
+            self.client = TestRailAPI('http://testrail.rambler-co.ru/', 'n.permyakov', os.environ['IOS_HOST_PASSWORD'])
+        except ConnectTimeout as error:
+            print('[ERROR] Connection timeout', error)
+        return None
 
     def get_project_id(self):
-        projects = self.client.projects.get_projects()
-        for p in projects:
-            if p['name'] == 'Касса (Mobile)':
-                return p['id']
+        try:
+            projects = self.client.projects.get_projects()
+            for p in projects:
+                if p['name'] == 'Касса (Mobile)':
+                    return p['id']
+        except ConnectTimeout as error:
+            print('[ERROR] Connection timeout', error)
+        return None
 
     def get_run_id(self, project_id):
-        runs = self.client.runs.get_runs(project_id)
-        for r in runs:
-            if r['name'] == 'Касса X iOs (regress)':
-                return r['id']
+        try:
+            runs = self.client.runs.get_runs(project_id)
+            for r in runs:
+                if r['name'] == 'Касса X iOs (regress)':
+                    return r['id']
+        except ConnectTimeout as error:
+            print('[ERROR] Connection timeout', error)
+        return None
 
     @classmethod
     def logging_case(cls, case_id):

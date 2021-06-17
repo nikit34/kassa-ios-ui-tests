@@ -47,11 +47,11 @@ class Action(Page):
 
     @staticmethod
     def rotate_simulator(direction='right', timeout=10):
-        path_starter = os.path.abspath(os.path.join(os.path.dirname(__file__), "../kassa-ui-tests", "utils"))
+        path_starter = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "utils"))
 
         if direction not in ['right', 'left']:
             raise ValueError('[ERROR] invalid argument')
-        os.system(f'echo "#!/bin/bash\n/usr/local/bin/python3 {path_starter}/rotate_simulator.py {direction}" > {path_starter}/starter.sh')
+        os.system(f'echo "#!/bin/bash\npython3 {path_starter}/rotate_simulator.py {direction}" > {path_starter}/starter.sh')
 
         os.system(f'chmod +x {path_starter}/starter.sh')
         proc = Popen(['open', '-W', '-a', 'Terminal.app', f'{path_starter}/starter.sh'], stdin=None, stderr=PIPE, universal_newlines=True)

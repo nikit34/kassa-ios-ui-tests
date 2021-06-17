@@ -13,7 +13,7 @@ class Test_001_ConcertsPage:
     @classmethod
     def setup_class(cls):
         cls.movies_locators = MoviesPageLocators()
-        cls.event_details_locators = MoviesDetailsPageLocators()
+        cls.movies_details_locators = MoviesDetailsPageLocators()
 
     def test_001_mathing_title_movie_feature_detail(self, driver):
         """Переход с главной на подробную страницу - совпадение по названию фильма"""
@@ -23,8 +23,9 @@ class Test_001_ConcertsPage:
             old_name_event = self.movie_page.find_element(*self.movies_locators.text_movie_title).text
             self.movie_page.click(*self.movies_locators.text_info_block)
         with allure.step('MoviesDetailsPage'):
-
-            self.movie_page.matching_text(*self.movies_locators.text_movie_title, equal=True, pattern=old_name_event)
+            self.movies_details_page = MoviesDetailsPage(driver)
+            self.movies_details_page.set_custom_wait(20)
+            self.movies_details_page.matching_text(*self.movies_details_locators.text_event_name, equal=True, pattern=old_name_event)
 
     def test_002_every_concert_in_featurer_has_content(self, driver):
         """Каждый event имеет название/описание + время, тег, цену"""
