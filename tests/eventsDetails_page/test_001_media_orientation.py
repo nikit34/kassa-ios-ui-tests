@@ -23,11 +23,11 @@ class Test_001_MoviePage:
         Выйти из галереи"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.movies_locators.img_row_top)
         with allure.step('MoviesDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
-            self.event_detail_page.set_custom_wait(20)
+            self.event_detail_page.set_custom_wait(10)
             self.event_detail_page.click(*self.movies_details_locators.img_gallery)
             self.event_detail_page.check_img_gallery_orientation()
 
@@ -35,11 +35,11 @@ class Test_001_MoviePage:
         """Открыть видео в карточке на фулскрин"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.movies_locators.img_row_top)
         with allure.step('MoviesDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
-            self.event_detail_page.set_custom_wait(20)
+            self.event_detail_page.set_custom_wait(10)
             sleep(2)
             self.event_detail_page.click(*self.movies_details_locators.btn_screen_mode)
             self.event_detail_page.check_video_opened_full_mode()

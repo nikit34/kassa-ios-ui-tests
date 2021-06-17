@@ -57,7 +57,7 @@ class MoviesPage(RecordTimeout, Wait):
         sessions = self.driver.find_elements(*locator)
         for session in sessions:
             self.click_elem(session)
-        else:
+        if len(sessions) == 0:
             raise base_error(self.driver, ValueError, *locator, crash_site='click_elem', msg='No session buttons found')
 
     def pass_allow_photo_media(self):
@@ -68,7 +68,7 @@ class MoviesPage(RecordTimeout, Wait):
 
     def proccessing_error(self):
         last_wait = self.get_last_wait()
-        self.set_custom_wait(20)
+        self.set_custom_wait(10)
         try:
             elem = self.find_element(*self.movies_locators.btn_try_right)
             self.click_elem(elem)
@@ -78,7 +78,7 @@ class MoviesPage(RecordTimeout, Wait):
 
     def allow_geolocation(self):
         last_wait = self.get_last_wait()
-        self.set_custom_wait(20)
+        self.set_custom_wait(10)
         try:
             self.find_element(*self.places_locators.btn_cancel_location)
             self.click(*self.places_locators.btn_allow_location)

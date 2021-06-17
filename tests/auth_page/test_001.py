@@ -24,16 +24,16 @@ class Test_001_AuthPage:
     def test_001_auth_onboard_page_is_opened(self, driver):
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.skip_onboarding()
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.movies_locators.btn_popup_next)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_popup_next)
             self.auth_page.find_element(*self.auth_locators.btn_settings)
             self.auth_page.find_element(*self.auth_locators.btn_onboarding_login)
@@ -52,11 +52,11 @@ class Test_002_AuthPage:
     def test_002_auth_page_is_opened(self, driver):
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_onboarding_login)
             self.auth_page.find_element(*self.auth_locators.btn_login)
             self.auth_page.find_element(*self.auth_locators.btn_auth_apple)
@@ -70,11 +70,11 @@ class Test_002_AuthPage:
     def test_003_auth_pass_invalid(self, driver):
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_onboarding_login)
             self.auth_page.input('autotest-negative@rambler.ru', *self.auth_locators.input_login_email)
             self.auth_page.input('Negative', *self.auth_locators.input_login_password)
@@ -84,11 +84,11 @@ class Test_002_AuthPage:
     def test_004_auth_pass_vk(self, driver):
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_onboarding_login)
             self.auth_page.click(*self.auth_locators.btn_vk)
             self.auth_page.find_element(*self.auth_locators.input_vk_login)
@@ -98,16 +98,16 @@ class Test_002_AuthPage:
     def test_005_auth_pass_default(self, driver):
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_onboarding_login)
             self.auth_page.input('n.permyakov@rambler-co.ru', *self.auth_locators.input_login_email)
             self.auth_page.input(os.environ['IOS_HOST_PASSWORD'], *self.auth_locators.input_login_password)
             self.auth_page.click(*self.auth_locators.btn_login)
         with allure.step('AuthPage'):
             self.profile_page = ProfilePage(driver)
-            self.profile_page.set_custom_wait(20)
+            self.profile_page.set_custom_wait(10)
             self.profile_page.find_element(*self.profile_locators.btn_search_events)

@@ -28,7 +28,7 @@ class Test_001_OnboardingPage:
         """Установить и запустить приложение"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.find_element(*self.onboarding_page_locators.text_title)
             self.onboarding_page.check_play_video()
 
@@ -36,7 +36,7 @@ class Test_001_OnboardingPage:
         """тапнуть на Поехали"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.click(*self.onboarding_page_locators.btn_drive)
             self.onboarding_page.find_element(*self.onboarding_page_locators.btn_choice_city)
             self.onboarding_page.find_element(*self.onboarding_page_locators.text_location)
@@ -45,7 +45,7 @@ class Test_001_OnboardingPage:
         """тапнуть на Разрешить"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.click(*self.onboarding_page_locators.btn_drive)
             self.onboarding_page.click(*self.onboarding_page_locators.btn_allow_location)
             self.onboarding_page.find_element(*self.popup_locators.text_allow_location)
@@ -56,7 +56,7 @@ class Test_001_OnboardingPage:
         """тапнуть на При использовании"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.click(*self.onboarding_page_locators.btn_drive)
             self.onboarding_page.click(*self.onboarding_page_locators.btn_allow_location)
             self.onboarding_page.click(*self.popup_locators.btn_allow_once)
@@ -67,7 +67,7 @@ class Test_001_OnboardingPage:
         """тапнуть на Включить уведомления"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.click(*self.onboarding_page_locators.btn_drive)
             self.onboarding_page.click(*self.onboarding_page_locators.btn_allow_location)
             self.onboarding_page.click(*self.popup_locators.btn_allow_once)
@@ -79,22 +79,22 @@ class Test_001_OnboardingPage:
         """тапнуть на Разрешить"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.skip_onboarding()
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.check_popup()
 
     def test_007_knowlenge(self, driver):
         """тапнуть на Понятно"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver, city='Абдулино')
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.skip_onboarding()
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.movies_locators.btn_popup_next)
             self.movie_page.not_displayed(*self.movies_locators.btn_popup_next)
 
@@ -112,22 +112,22 @@ class Test_002_MoviesPage:
         """тапнуть в нижнем навбаре на кнопку Профиль"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.check_popup()
 
     def test_009_profile(self, driver):
         """тапнуть на Понятно"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_popup_next)
             self.auth_page.not_displayed(*self.auth_locators.btn_popup_next)
 
@@ -135,30 +135,30 @@ class Test_002_MoviesPage:
         """тапнуть на иконку шестеренки в правом верхнем углу"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_settings)
         with allure.step('AuthPage'):
             self.settings_page = SettingsPage(driver)
-            self.settings_page.set_custom_wait(20)
+            self.settings_page.set_custom_wait(10)
             self.settings_page.check_settings_list()
 
     def test_011_geolocation(self, driver):
         """найти раздел Геолокация"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_settings)
         with allure.step('AuthPage'):
             self.settings_page = SettingsPage(driver)
-            self.settings_page.set_custom_wait(20)
+            self.settings_page.set_custom_wait(10)
             self.settings_page.check_state_switcher(*self.settings_locators.btn_geolocation, state=False)
 
     @pytest.mark.xfail(reason='bug Simulator -> check real device')
@@ -166,15 +166,15 @@ class Test_002_MoviesPage:
         """найти раздел Уведомления"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_settings)
         with allure.step('AuthPage'):
             self.settings_page = SettingsPage(driver)
-            self.settings_page.set_custom_wait(20)
+            self.settings_page.set_custom_wait(10)
             self.settings_page.check_state_switcher(*self.settings_locators.btn_notifications, state=False)
 
     @pytest.mark.xfail(condition=lambda: True, reason='need real devices')

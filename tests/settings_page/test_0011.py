@@ -22,49 +22,49 @@ class Test_001_SettingsPage:
         """Открывается страница настроек"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('ProfilePage'):
             self.profile_page = ProfilePage(driver)
-            self.profile_page.set_custom_wait(20)
+            self.profile_page.set_custom_wait(10)
             self.profile_page.click(*self.profile_locators.btn_settings)
         with allure.step('SettingsPage'):
             self.settings_page = SettingsPage(driver)
-            self.settings_page.set_custom_wait(20)
+            self.settings_page.set_custom_wait(10)
             self.settings_page.find_element(*self.settings_locators.btn_cancel)
 
     def test_002_open_settings_and_back_into_profile(self, driver):
         """Кнопка возврата из настроек в профиль работает"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('ProfilePage'):
             self.profile_page = ProfilePage(driver)
-            self.profile_page.set_custom_wait(20)
+            self.profile_page.set_custom_wait(10)
             self.profile_page.click(*self.profile_locators.btn_settings)
         with allure.step('SettingsPage'):
             self.settings_page = SettingsPage(driver)
-            self.settings_page.set_custom_wait(20)
+            self.settings_page.set_custom_wait(10)
             self.settings_page.click(*self.settings_locators.btn_cancel)
         with allure.step('ProfilePage'):
             self.profile_page = ProfilePage(driver)
-            self.profile_page.set_custom_wait(20)
+            self.profile_page.set_custom_wait(10)
             self.profile_page.find_element(*self.profile_locators.btn_search_events)
 
     def test_003_test_change_city(self, driver):
         """Меняем город в настройках и поиск отрабатывает"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('ProfilePage'):
             self.profile_page = ProfilePage(driver)
-            self.profile_page.set_custom_wait(20)
+            self.profile_page.set_custom_wait(10)
             self.profile_page.click(*self.profile_locators.btn_settings)
         with allure.step('SettingsPage'):
             self.settings_page = SettingsPage(driver)
-            self.settings_page.set_custom_wait(20)
+            self.settings_page.set_custom_wait(10)
             self.settings_page.click(*self.settings_locators.row_city)
             self.settings_page.find_element(*self.settings_locators.input)
             self.settings_page.find_element(*self.settings_locators.btn_choice)
@@ -73,15 +73,15 @@ class Test_001_SettingsPage:
         """На странице настроек указаны все пункты"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('ProfilePage'):
             self.profile_page = ProfilePage(driver)
-            self.profile_page.set_custom_wait(20)
+            self.profile_page.set_custom_wait(10)
             self.profile_page.click(*self.profile_locators.btn_settings)
         with allure.step('SettingsPage'):
             self.settings_page = SettingsPage(driver)
-            self.settings_page.set_custom_wait(20)
+            self.settings_page.set_custom_wait(10)
             self.settings_page.check_settings_list()
 
 

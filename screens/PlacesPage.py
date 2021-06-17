@@ -30,7 +30,7 @@ class PlacesPage(RecordTimeout, Wait):
 
     def allow_geolocation(self):
         last_wait = self.get_last_wait()
-        self.set_custom_wait(20)
+        self.set_custom_wait(10)
         try:
             self.find_element(*self.places_locators.btn_cancel_location)
             self.click(*self.places_locators.btn_allow_location)

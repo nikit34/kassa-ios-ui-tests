@@ -22,16 +22,16 @@ class Test_001_AuthPage:
     def test_001_profile_page_opened(self, driver):
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.skip_onboarding()
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.movies_locators.btn_popup_next)
             self.movie_page.click(*self.common_locators.tab_profile)
         with allure.step('AuthPage'):
             self.auth_page = AuthPage(driver)
-            self.auth_page.set_custom_wait(20)
+            self.auth_page.set_custom_wait(10)
             self.auth_page.click(*self.auth_locators.btn_popup_next)
             self.auth_page.click(*self.auth_locators.btn_onboarding_login)
             self.auth_page.input('autotest-negative@rambler.ru', *self.auth_locators.input_login_email)

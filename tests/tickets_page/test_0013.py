@@ -19,9 +19,9 @@ class Test_001_TicketsPage:
         """Открыта вкладка Билеты"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_ticket)
         with allure.step('TicketsPage'):
             self.tickets_page = TicketsPage(driver)
-            self.tickets_page.set_custom_wait(20)
+            self.tickets_page.set_custom_wait(10)
             self.tickets_page.click(*self.tickets_locators.btn_search_events)

@@ -19,19 +19,19 @@ class Test_001_ConcertsPage:
         """Переход с главной на подробную страницу - совпадение по названию фильма"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             old_name_event = self.movie_page.find_element(*self.movies_locators.text_movie_title).text
             self.movie_page.click(*self.movies_locators.text_info_block)
         with allure.step('MoviesDetailsPage'):
             self.movies_details_page = MoviesDetailsPage(driver)
-            self.movies_details_page.set_custom_wait(20)
+            self.movies_details_page.set_custom_wait(10)
             self.movies_details_page.matching_text(*self.movies_details_locators.text_event_name, equal=True, pattern=old_name_event)
 
     def test_002_every_concert_in_featurer_has_content(self, driver):
         """Каждый event имеет название/описание + время, тег, цену"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             concert_base_canvas_row = self.movie_page.find_element(*self.movies_locators.video_row_carousel)
 
             random_num = randrange(64, 255)  # 1000 to 3333 in 4 notation

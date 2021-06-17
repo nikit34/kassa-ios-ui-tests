@@ -21,24 +21,24 @@ class Test_001_PerformancePage:
         """Вкладка Спектакли открыта"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.find_element(*self.movies_locators.text_title)
             old_movie_title = self.movie_page.find_element(*self.movies_locators.text_movie_title).text
             self.movie_page.click(*self.performance_locators.tab)
         with allure.step('PerformancePage'):
             self.performance_page = PerformancePage(driver)
-            self.performance_page.set_custom_wait(20)
+            self.performance_page.set_custom_wait(10)
             self.performance_page.matching_text(*self.performance_locators.text_event_title, equal=False, pattern=old_movie_title)
 
     def test_002_every_perfomance_in_featurer_has_content(self, driver):
         """Каждый event имеет название/описание + время, тег, цену"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.performance_locators.tab)
         with allure.step('PerformancePage'):
             self.performance_page = PerformancePage(driver)
-            self.performance_page.set_custom_wait(20)
+            self.performance_page.set_custom_wait(10)
             performance_base_canvas_row = self.performance_page.find_element(*self.performance_locators.video_row_carousel)
 
             random_num = randrange(64, 255)  # 1000 to 3333 in 4 notation
@@ -63,11 +63,11 @@ class Test_001_PerformancePage:
         """На экране присутствует блок Популярно сейчас """
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.performance_locators.tab)
         with allure.step('PerformancePage'):
             self.performance_page = PerformancePage(driver)
-            self.performance_page.set_custom_wait(20)
+            self.performance_page.set_custom_wait(10)
             sleep(5)
             self.performance_page.act.swipe(50, 70, 50, 30)
             sleep(1)

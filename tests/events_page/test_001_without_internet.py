@@ -32,7 +32,7 @@ class Test_001_EventsPage:
         with allure.step('MoviesPage'):
             os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setnetworkserviceenabled Wi-Fi off')
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_search)
             self.movie_page.find_element(*self.events_locators.text_error)
             self.movie_page.find_element(*self.events_locators.btn_try_yet)
@@ -44,7 +44,7 @@ class Test_001_EventsPage:
             os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setnetworkserviceenabled Wi-Fi on')
             sleep(5)
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_search)
             sleep(10)
             self.movie_page.click(*self.events_locators.btn_try_yet)
@@ -58,11 +58,11 @@ class Test_001_EventsPage:
         """тапнуть на кнопку Билеты в нижнем навбаре"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_ticket)
         with allure.step('TicketsPage'):
             self.tickets_page = TicketsPage(driver)
-            self.tickets_page.set_custom_wait(20)
+            self.tickets_page.set_custom_wait(10)
             self.tickets_page.find_element(*self.tickets_locators.text_title_ticket)
             self.tickets_page.find_element(*self.tickets_locators.text_time_ticket)
             self.tickets_page.find_element(*self.tickets_locators.text_status_ticket)
@@ -72,15 +72,15 @@ class Test_001_EventsPage:
         """тапнуть на билет"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_ticket)
         with allure.step('TicketsPage'):
             self.tickets_page = TicketsPage(driver)
-            self.tickets_page.set_custom_wait(20)
+            self.tickets_page.set_custom_wait(10)
             self.tickets_page.click(*self.tickets_locators.img_ticket)
         with allure.step('TicketsDetailsPage'):
             self.tickets_details_page = TicketsDetailsPage(driver)
-            self.tickets_details_page.set_custom_wait(20)
+            self.tickets_details_page.set_custom_wait(10)
             self.tickets_details_page.find_element(*self.tickets_details_locators.info_table)
             self.tickets_details_page.find_element(*self.tickets_details_locators.live_table)
 
@@ -88,15 +88,15 @@ class Test_001_EventsPage:
         """напнуть на крестик"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_ticket)
         with allure.step('TicketsPage'):
             self.tickets_page = TicketsPage(driver)
-            self.tickets_page.set_custom_wait(20)
+            self.tickets_page.set_custom_wait(10)
             self.tickets_page.click(*self.tickets_locators.img_ticket)
         with allure.step('TicketsDetailsPage'):
             self.tickets_details_page = TicketsDetailsPage(driver)
-            self.tickets_details_page.set_custom_wait(20)
+            self.tickets_details_page.set_custom_wait(10)
             self.tickets_details_page.click(*self.tickets_details_locators.btn_close)
         with allure.step('TicketsPage'):
             self.tickets_page.find_element(*self.tickets_locators.img_ticket)
@@ -106,16 +106,16 @@ class Test_001_EventsPage:
         """отключить доступ к сети, тапнуть еще раз на билет"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_ticket)
         with allure.step('TicketsPage'):
             self.tickets_page = TicketsPage(driver)
-            self.tickets_page.set_custom_wait(20)
+            self.tickets_page.set_custom_wait(10)
             os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setnetworkserviceenabled Wi-Fi off')
             self.tickets_page.click(*self.tickets_locators.img_ticket)
         with allure.step('TicketsDetailsPage'):
             self.tickets_details_page = TicketsDetailsPage(driver)
-            self.tickets_details_page.set_custom_wait(20)
+            self.tickets_details_page.set_custom_wait(10)
             self.tickets_details_page.find_element(*self.tickets_details_locators.info_table)
             self.tickets_details_page.find_element(*self.tickets_details_locators.live_table)
             os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setnetworkserviceenabled Wi-Fi on')

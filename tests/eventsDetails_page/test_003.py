@@ -19,11 +19,11 @@ class Test_001_EventDetailsPage:
         """Event details показывается после закрытия расписания"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.movies_locators.text_info_block)
         with allure.step('MoviesDetailsPage'):
             self.event_details_page = MoviesDetailsPage(driver)
-            self.event_details_page.set_custom_wait(20)
+            self.event_details_page.set_custom_wait(10)
             self.event_details_page.find_element(*self.movies_details_locators.text_event_name)
             self.event_details_page.find_element(*self.movies_details_locators.text_time)
             self.event_details_page.find_element(*self.movies_details_locators.btn_view_timetable)
@@ -32,10 +32,10 @@ class Test_001_EventDetailsPage:
         """Выход из Event details через кнопку назад"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.movies_locators.text_info_block)
         with allure.step('MoviesDetailsPage'):
             self.event_details_page = MoviesDetailsPage(driver)
-            self.event_details_page.set_custom_wait(20)
+            self.event_details_page.set_custom_wait(10)
             self.event_details_page.click(*self.movies_details_locators.btn_back)
             self.movie_page.find_element(*self.movies_locators.text_movie_title)

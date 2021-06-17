@@ -31,7 +31,7 @@ class Test_001_MoviePage:
         """Вкладка КИНО выбрана при открытии приложения"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.check_state_selected(*self.common_locators.tab_trend, state=True)
             self.movie_page.check_state_selected(*self.common_locators.tab_search, state=False)
             self.movie_page.check_state_selected(*self.common_locators.tab_ticket, state=False)
@@ -42,7 +42,7 @@ class Test_001_MoviePage:
         """Каждый фильм в fitcher имеет название/описание + время, тег, цену"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             movie_base_canvas_row = self.movie_page.find_element(*self.movies_locators.video_row_carousel)
 
             random_num = randrange(9, 26)  # 100 to 222 in 3 notation
@@ -65,15 +65,15 @@ class Test_001_MoviePage:
         """Открыть экран выбора места"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.select_session()
         with allure.step('InfoPage'):
             self.info_page = InfoPage(driver)
-            self.info_page.set_custom_wait(20)
+            self.info_page.set_custom_wait(10)
             self.info_page.pass_without_info()
         with allure.step('SeatSelectionPage'):
             self.shedule_page = SeatSelectionPage(driver)
-            self.shedule_page.set_custom_wait(20)
+            self.shedule_page.set_custom_wait(10)
             self.shedule_page.find_element(*self.seat_selection_locators.img_screen)
 
     @pytest.mark.xfail(reason='dont know')
@@ -84,7 +84,7 @@ class Test_001_MoviePage:
         """Проверяем, что event tabs пропадает при свайпе вниз"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             sleep(1)
@@ -94,25 +94,25 @@ class Test_001_MoviePage:
         """Топ фильмы отображаются на главном экране"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.find_element(*self.movies_locators.img_row_top)
 
     def test_007_flop_into_top_movie(self, driver):
         """Открытия фильма из раздела top"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click_random_top_movie(3)
         with allure.step('MoviesDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
-            self.event_detail_page.set_custom_wait(20)
+            self.event_detail_page.set_custom_wait(10)
             self.event_detail_page.find_element(*self.movies_details_locators.text_event_name)
 
     def test_008_test_hiding_and_showing_headers_after_swipes(self, driver):
         """Event navigation бар пропадает при swipe вниз и появляется при swipe вверх"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(3)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.not_displayed(*self.movies_locators.img_banner)
@@ -124,7 +124,7 @@ class Test_001_MoviePage:
         """Популярные фильмы видны на экране при запуске"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(2)
             self.movie_page.act.swipe(50, 70, 50, 30)
             sleep(1)
@@ -136,7 +136,7 @@ class Test_001_MoviePage:
         """Премьеры присутствуют на экране"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(2)
             self.movie_page.act.swipe(50, 70, 50, 30)
             self.movie_page.act.swipe(50, 60, 50, 40)
@@ -149,29 +149,29 @@ class Test_001_MoviePage:
         """Проваливаемся в карусель популярные фильмы по клику"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(2)
             self.movie_page.act.swipe(50, 70, 50, 30)
             sleep(1)
             self.movie_page.click(*self.movies_locators.text_row_popular_all)
         with allure.step('ShedulePage'):
             self.sheduler_page = ShedulePage(driver)
-            self.sheduler_page.set_custom_wait(20)
+            self.sheduler_page.set_custom_wait(10)
             self.sheduler_page.find_element(*self.shedule_locators.img_screen)
 
     def test_0012_close_schedule_is_working(self, driver):
         """Event details показывается после закрытия расписания кнопкой назад"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.select_session()
         with allure.step('InfoPage'):
             self.info_page = InfoPage(driver)
-            self.info_page.set_custom_wait(20)
-            self.info_page.pass_without_info()
+            self.info_page.set_custom_wait(10)
+            # self.info_page.pass_without_info()
         with allure.step('SeatSelectionPage'):
             self.seat_selection_page = SeatSelectionPage(driver)
-            self.seat_selection_page.set_custom_wait(20)
+            self.seat_selection_page.set_custom_wait(10)
             self.seat_selection_page.click(*self.seat_selection_locators.btn_back)
             self.movie_page.find_element(*self.movies_locators.text_movie_title)
 
@@ -179,35 +179,35 @@ class Test_001_MoviePage:
         """Проваливаемся в карусель популярные фильмы по клику на названия блока"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             sleep(1)
             self.movie_page.click(*self.movies_locators.text_row_popular)
         with allure.step('MoviesDetailsPage'):
             self.detail_page = MoviesDetailsPage(driver)
-            self.detail_page.set_custom_wait(20)
+            self.detail_page.set_custom_wait(10)
             self.detail_page.find_element(*self.movies_details_locators.text_event_name)
 
     def test_0014_flop_into_popular_from_in_arrow(self, driver):
         """Проваливаемся в карусель популярные фильмы по клику на стрелку блока"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             sleep(1)
             self.movie_page.click(*self.movies_locators.img_row_popular)
         with allure.step('MoviesDetailsPage'):
             self.detail_page = MoviesDetailsPage(driver)
-            self.detail_page.set_custom_wait(20)
+            self.detail_page.set_custom_wait(10)
             self.detail_page.find_element(*self.movies_details_locators.text_event_name)
 
     def test_0015_flop_into_details_from_popular_carusel(self, driver):
         """Проваливаемся в event details из карусели популярных фильмов"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(5)
             self.movie_page.act.swipe(50, 80, 50, 20)
             sleep(2)
@@ -216,14 +216,14 @@ class Test_001_MoviePage:
             self.movie_page.click(*self.movies_locators.img_row_popular)
         with allure.step('MoviesDetailsPage'):
             self.detail_page = MoviesDetailsPage(driver)
-            self.detail_page.set_custom_wait(20)
+            self.detail_page.set_custom_wait(10)
             self.detail_page.find_element(*self.movies_details_locators.text_time)
 
     def test_0016_open_premiers_vertical_carousel(self, driver):
         """Проваливаемся в премьеры - горизонтальную карусель"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(5)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.act.swipe(50, 60, 50, 40)
@@ -231,14 +231,14 @@ class Test_001_MoviePage:
             self.movie_page.click(*self.movies_locators.text_row_premiers_all)
         with allure.step('ShedulePage'):
             self.sheduler_page = ShedulePage(driver)
-            self.sheduler_page.set_custom_wait(20)
+            self.sheduler_page.set_custom_wait(10)
             self.sheduler_page.find_element(*self.shedule_locators.img_screen)
 
     def test_0017_flop_into_event_details_from_premier_carousel(self, driver):
         """Проваливаемся в эвент детейлз из горизонтальной карусели премьер"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(5)
             self.movie_page.act.swipe(50, 70, 50, 30)
             self.movie_page.act.swipe(50, 60, 50, 40)
@@ -246,7 +246,7 @@ class Test_001_MoviePage:
             self.movie_page.click(*self.movies_locators.img_row_premiers)
         with allure.step('MoviesDetailsPage'):
             self.detail_page = MoviesDetailsPage(driver)
-            self.detail_page.set_custom_wait(20)
+            self.detail_page.set_custom_wait(10)
             self.detail_page.find_element(*self.movies_details_locators.text_event_name)
 
     # @pytest.mark.skip('No button fast buy')
@@ -254,7 +254,7 @@ class Test_001_MoviePage:
         """ Открываем расписание из горизонтальной карусели премьер через кнопку быстрой оплаты"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(5)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.act.swipe(50, 60, 50, 40)
@@ -262,7 +262,7 @@ class Test_001_MoviePage:
             self.movie_page.click(*self.movies_locators.text_row_premiers_all)
         with allure.step('ShedulePage'):
             self.schedule_page = ShedulePage(driver)
-            self.schedule_page.set_custom_wait(20)
+            self.schedule_page.set_custom_wait(10)
             self.schedule_page.click(*self.shedule_locators.btn_fastbuy_ticket)
             self.schedule_page.find_element(*self.shedule_locators.col_session_table)
 
@@ -270,7 +270,7 @@ class Test_001_MoviePage:
         """Закрываем расписание из карусели премьер и попадаем на эвент детейлз"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(5)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.act.swipe(50, 60, 50, 40)
@@ -278,7 +278,7 @@ class Test_001_MoviePage:
             self.movie_page.click(*self.movies_locators.text_row_premiers_all)
         with allure.step('ShedulePage'):
             self.schedule_page = ShedulePage(driver)
-            self.schedule_page.set_custom_wait(20)
+            self.schedule_page.set_custom_wait(10)
             self.schedule_page.click(*self.shedule_locators.btn_fastbuy_ticket)
             self.schedule_page.click(*self.shedule_locators.btn_back_bar)
             self.schedule_page.find_element(*self.movies_details_locators.btn_back)
@@ -287,7 +287,7 @@ class Test_001_MoviePage:
         """Выходим кнопкой назад из карусели премьер и попадаем на фичер"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(5)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.act.swipe(50, 60, 50, 40)
@@ -295,6 +295,6 @@ class Test_001_MoviePage:
             self.movie_page.click(*self.movies_locators.text_row_premiers_all)
         with allure.step('ShedulePage'):
             self.schedule_page = ShedulePage(driver)
-            self.schedule_page.set_custom_wait(20)
+            self.schedule_page.set_custom_wait(10)
             self.schedule_page.click(*self.shedule_locators.btn_back)
             self.movie_page.find_element(*self.movies_locators.img_row_top)

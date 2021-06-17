@@ -7,4 +7,4 @@ class SeatSelectionLocators(MobileBy):
 
         self.btn_continue = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`label == "Продолжить"`]')
         self.img_screen = (self.ACCESSIBILITY_ID, 'Screen')
-        self.btn_back = (self.ACCESSIBILITY_ID, 'Назад')
+        self.btn_back = (self.ACCESSIBILITY_ID, 'Close')

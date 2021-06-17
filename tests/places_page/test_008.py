@@ -19,11 +19,11 @@ class Test_001_PlacesPage:
         """Открыта вкладка Билеты"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_places)
         with allure.step('PerformancePage'):
             self.places_page = PlacesPage(driver)
-            self.places_page.set_custom_wait(20)
+            self.places_page.set_custom_wait(10)
             self.places_page.allow_geolocation()
             self.places_page.find_element(*self.places_locators.row_events)
 
@@ -31,23 +31,23 @@ class Test_001_PlacesPage:
         """Таб кино выбран по дефолту"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_places)
         with allure.step('PlacesPage'):
             self.places_page = PlacesPage(driver)
-            self.places_page.set_custom_wait(20)
+            self.places_page.set_custom_wait(10)
             self.places_page.check_state_tabs()
 
     def test_003_screen_contains_all_elements(self, driver):
         """таб МЕСТА подсвечивается выбранным"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.allow_geolocation()
             self.movie_page.click(*self.common_locators.tab_places)
         with allure.step('PlacesPage'):
             self.places_page = PlacesPage(driver)
-            self.places_page.set_custom_wait(20)
+            self.places_page.set_custom_wait(10)
             self.places_page.find_element(*self.places_locators.block_search)
             self.places_page.find_element(*self.places_locators.btn_map)
             self.places_page.find_element(*self.places_locators.row_labels)
@@ -56,11 +56,11 @@ class Test_001_PlacesPage:
         """в табе МЕСТА имеется попап о геолокации"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_places)
         with allure.step('PlacesPage'):
             self.places_page = PlacesPage(driver)
-            self.places_page.set_custom_wait(20)
+            self.places_page.set_custom_wait(10)
             self.places_page.find_element(*self.places_locators.btn_allow_location)
             self.places_page.find_element(*self.places_locators.btn_cancel_location)
 
@@ -68,9 +68,9 @@ class Test_001_PlacesPage:
         """В табе Места закрываем попап о геолокации"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             self.movie_page.click(*self.common_locators.tab_places)
         with allure.step('PlacesPage'):
             self.places_page = PlacesPage(driver)
-            self.places_page.set_custom_wait(20)
+            self.places_page.set_custom_wait(10)
             self.places_page.allow_geolocation()

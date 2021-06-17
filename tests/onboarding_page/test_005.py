@@ -17,7 +17,7 @@ class Test_001_OnboardingPage:
         """Сдвиг назад работает на экране выбора города"""
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
-            self.onboarding_page.set_custom_wait(20)
+            self.onboarding_page.set_custom_wait(10)
             self.onboarding_page.click(*self.onboarding_locators.btn_drive)
             self.onboarding_page.click(*self.onboarding_locators.btn_choice_city)
             self.onboarding_page.find_element(*self.onboarding_locators.input_field)

@@ -11,3 +11,4 @@ class ShedulePageLocators(MobileBy):
         self.template_text_second_filters = [self.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`label == ""`]']
         self.template_base_second_filters = [self.IOS_CLASS_CHAIN, '**/XCUIElementTypeOther[`name == "dateBackgroundView"`][]']
         self.template_ticket_top = [self.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`label == ""`][1]']
+        self.img_screen = [self.IOS_CLASS_CHAIN, '**/XCUIElementTypeCell[`name == "eventListCollectionCell"`][1]']

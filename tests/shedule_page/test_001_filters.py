@@ -31,16 +31,16 @@ class Test_001_ShedulePage:
         найти кнопку отмены, кнопку карты, поле поиска"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(10)
             self.movie_page.act.click_by_coords(50, 30)
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
-            self.event_detail_page.set_custom_wait(20)
+            self.event_detail_page.set_custom_wait(10)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
         with allure.step('ShedulePage'):
             self.shedule_page = ShedulePage(driver)
-            self.shedule_page.set_custom_wait(20)
+            self.shedule_page.set_custom_wait(10)
             self.shedule_page.find_element(*self.shedule_locators.btn_back)
             self.shedule_page.find_element(*self.shedule_locators.btn_map)
             self.shedule_page.find_element(*self.shedule_locators.search_field)
@@ -53,17 +53,17 @@ class Test_001_ShedulePage:
         """
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(10)
             self.movie_page.act.click_by_coords(50, 30)
             dbg_api = DebugAPI.run(request=False)
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
-            self.event_detail_page.set_custom_wait(20)
+            self.event_detail_page.set_custom_wait(10)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
         with allure.step('ShedulePage'):
             self.shedule_page = ShedulePage(driver)
-            self.shedule_page.set_custom_wait(20)
+            self.shedule_page.set_custom_wait(10)
             self.shedule_page.check_rows_filters(dbg_api)
             dbg_api.kill()
             dbg_api.clear_buffer()
@@ -75,16 +75,16 @@ class Test_001_ShedulePage:
         with allure.step('MoviesPage'):
             dbg_api = DebugAPI.run(request=False)
             self.movie_page = MoviesPage(driver)
-            self.movie_page.set_custom_wait(20)
+            self.movie_page.set_custom_wait(10)
             sleep(10)
             self.movie_page.act.click_by_coords(50, 30)
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
-            self.event_detail_page.set_custom_wait(20)
+            self.event_detail_page.set_custom_wait(10)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
         with allure.step('ShedulePage'):
             self.shedule_page = ShedulePage(driver)
-            self.shedule_page.set_custom_wait(20)
+            self.shedule_page.set_custom_wait(10)
             self.shedule_page.compare_time_tickets_second_filter(dbg_api)
             dbg_api.kill()
             dbg_api.clear_buffer()
