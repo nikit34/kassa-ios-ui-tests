@@ -7,7 +7,6 @@ from screens.CheckOutPage import CheckOutPage
 from screens.InfoPage import InfoPage
 from locators.seat_selection_locators import SeatSelectionLocators
 from locators.checkout_locators import CheckoutPageLocators
-from locators.info_locators import InfoPageLocators
 
 
 @allure.severity(allure.severity_level.CRITICAL)
@@ -17,7 +16,6 @@ class Test_001_PerformancePage:
     def setup_class(cls):
         cls.checkout_locators = CheckoutPageLocators()
         cls.seat_selection_locators = SeatSelectionLocators()
-        cls.info_locators = InfoPageLocators()
 
     def test_001_payment_page_is_open(self, driver):
         """Выбор места открыт"""
