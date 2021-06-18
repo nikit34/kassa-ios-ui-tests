@@ -43,14 +43,13 @@ class MoviesPage(RecordTimeout, Wait):
         element = self.find_element(locator[0], locator_index)
         self.click_elem(element)
 
-    def select_session(self, _number_slide=0):
+    def select_session(self, _number_session=0, _number_slide=0):
         for i in range(_number_slide):
             sleep(5)
             self.act.swipe(80, 30, 20, 30)
         locator = self.movies_locators.btn_time_session
         sessions = self.driver.find_elements(*locator)
-        for session in sessions:
-            self.click_elem(session)
+        self.click_elem(sessions[_number_session])
         if len(sessions) == 0:
             raise base_error(self.driver, ValueError, *locator, crash_site='click_elem', msg='No session buttons found')
 
