@@ -121,8 +121,8 @@ class SeatSelectionPage(RecordTimeout, Wait):
                 self.driver.find_element(self.valid_obj_tap, valid_str_tap)
                 return True
             except (NoSuchElementException, AssertionError) as error:
-                error.args += ('clusters invalid',)
-                print('clusters invalid')
+                error.args += ('[ERROR] tickets count is invalid',)
+                print('[ERROR] tickets count is invalid')
             return False
 
     def skip_seat_selection(self, count_places=1):
