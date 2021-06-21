@@ -12,6 +12,7 @@ def create_dashboards():
             headers={'Content-Type': 'application/json'},
             data=open('db/setting_dashboards.json')
         )
+        print(response, response.text)
     except requests.exceptions.RequestException as error:
         print(f'[ERROR] db/autorecovery.create_dashboards -> POST request failed\nstatus code: {response.status_code}',
               error)
@@ -44,6 +45,7 @@ def create_db_connection(ip_docker_postgres):
             f'http://n.permyakov:{os.environ["IOS_HOST_PASSWORD"]}@localhost:3000/api/datasources',
             headers={'Content-Type': 'application/json'}, data=json.dumps(data)
         )
+        print(response, response.text)
     except requests.exceptions.RequestException as error:
         print(f'[ERROR] db/autorecovery.create_db_connection -> POST request failed\nstatus code: {response.status_code}', error)
         error.args += (f'db/autorecovery.create_db_connection: {response.status_code}',)
@@ -53,6 +55,7 @@ def get_db_id():
     response = ''
     try:
         response = requests.get(f'http://n.permyakov:{os.environ["IOS_HOST_PASSWORD"]}@localhost:3000/api/datasources/id/autotest')
+        print(response, response.text)
     except requests.exceptions.RequestException as error:
         print(f'[ERROR] db/autorecovery.get_db_id -> GET request failed\nstatus code: {response.status_code}', error)
         error.args += (f'db/autorecovery.get_db_id: {response.status_code}',)
@@ -78,6 +81,14 @@ def create_db_queries(db_id):
         },{
             'datasourceId': db_id,
             'rawSql': "SELECT fet.date_time as \"time\", fet.find_element, nt.name_test FROM find_element_timeout fet, name_test nt WHERE fet.id_test = nt.id_test;",
+            'format': 'time_series'
+        },{
+            'datasourceId': db_id,
+            'rawSql': "SELECT MIN(ct.click), MAX(ct.click), AVG(ct.click), nt.name_test FROM click_timeout ct, name_test nt WHERE ct.id_test = nt.id_test GROUP BY nt.name_test;",
+            'format': 'time_series'
+        },{
+            'datasourceId': db_id,
+            'rawSql': "SELECT MIN(fet.find_element), MAX(fet.find_element), AVG(fet.find_element), nt.name_test FROM find_element_timeout fet, name_test nt WHERE fet.id_test = nt.id_test GROUP BY nt.name_test;",
             'format': 'time_series'
         }]
     }
