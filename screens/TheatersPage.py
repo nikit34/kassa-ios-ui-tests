@@ -3,7 +3,7 @@ from templates.base import Wait
 from templates.statistic import RecordTimeout
 
 
-class PerformancePage(RecordTimeout, Wait):
+class TheatersPage(RecordTimeout, Wait):
     def __init__(self, driver):
         super().__init__(driver)
 
