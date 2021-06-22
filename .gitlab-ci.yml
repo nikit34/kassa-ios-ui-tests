@@ -67,6 +67,7 @@ app_job:
   after_script:
     - killall ssh-agent
     - python3 telegram_bot/client.py -n app_job
+    - ls project
   cache:
     untracked: true
     key: cache
@@ -119,6 +120,7 @@ install_job:
   variables:
     BOUNDLE_ID: "com.rambler.kassa"
   before_script:
+    - ls project
     - rm -r ./app/Kassa.app && mkdir -p ./app/Kassa.app || mkdir -p ./app/Kassa.app || true
     - xcrun simctl privacy booted grant all $BOUNDLE_ID
   script:
