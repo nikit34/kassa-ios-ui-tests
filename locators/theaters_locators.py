@@ -13,3 +13,4 @@ class TheatersPageLocators(MobileBy):
         self.text_time = (self.ACCESSIBILITY_ID, 'timeLabel')
         self.btn_buy = (self.ACCESSIBILITY_ID, 'gradientButton')
         self.text_place_name = (self.ACCESSIBILITY_ID, 'dateLabel')
+        self.text_title_last_row = (self.ACCESSIBILITY_ID, 'NearestPlacesTableCell.headerView.titleLabel')

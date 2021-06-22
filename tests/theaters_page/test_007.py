@@ -59,22 +59,21 @@ class Test_001_TheatersPage:
                     break
                 self.theaters_page.act.swipe(80, 30, 20, 30)
 
-    def test_003_popular_is_visible(self, driver):
+    def test_003(self, driver):
         """На экране присутствует блок Популярно сейчас """
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
+            self.movie_page.click(*self.movies_locators.btn_close_curtain)
             self.movie_page.click(*self.theaters_locators.tab)
         with allure.step('TheatersPage'):
             self.theaters_page = TheatersPage(driver)
             self.theaters_page.set_custom_wait(10)
             sleep(5)
+            self.theaters_page.act.swipe(50, 80, 50, 20)
             self.theaters_page.act.swipe(50, 70, 50, 30)
             sleep(1)
-            self.theaters_page.find_element(*self.theaters_locators.text_popular_title)
-            self.theaters_page.find_element(*self.theaters_locators.btn_popular_all)
-            self.theaters_page.find_element(*self.theaters_locators.text_popular_event_name)
-            self.theaters_page.find_element(*self.theaters_locators.img_popular)
+            self.theaters_page.find_element(*self.theaters_locators.text_title_last_row)
 
 
 
