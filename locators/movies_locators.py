@@ -32,4 +32,4 @@ class MoviesPageLocators(MobileBy):
         self.btn_first_up_input_field = (self.ACCESSIBILITY_ID, 'КИНО')
         self.btn_card_price = (self.XPATH, '(//XCUIElementTypeButton[@name="buyButton"])[1]')
         self.btn_card_release_date = (self.XPATH, '(//XCUIElementTypeStaticText[@name="releaseDateLabel"])[1]')
-
+        self.btn_close_curtain = (self.ACCESSIBILITY_ID, 'closeButton')

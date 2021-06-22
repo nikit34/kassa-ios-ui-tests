@@ -43,3 +43,4 @@ class Test_001_MoviePage:
             sleep(2)
             self.event_detail_page.click(*self.movies_details_locators.btn_screen_mode)
             self.event_detail_page.check_video_opened_full_mode()
+
