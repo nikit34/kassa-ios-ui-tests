@@ -14,7 +14,7 @@ stages:
 
 
 variables:
-  IOS_ID_SIMULATOR: "92550E9C-3C12-45C5-81C8-7DE04D72B289"  # host simulator - does not match the actual one on the server
+  IOS_ID_SIMULATOR: "94064CAA-7B7C-415B-90EF-76712DF5005C"  # host simulator - does not match the actual one on the server
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/pip-cache"
 
 workflow:
@@ -67,7 +67,6 @@ app_job:
   after_script:
     - killall ssh-agent
     - python3 telegram_bot/client.py -n app_job
-    - ls project
   cache:
     untracked: true
     key: cache
@@ -120,7 +119,6 @@ install_job:
   variables:
     BOUNDLE_ID: "com.rambler.kassa"
   before_script:
-    - ls project
     - rm -r ./app/Kassa.app && mkdir -p ./app/Kassa.app || mkdir -p ./app/Kassa.app || true
     - xcrun simctl privacy booted grant all $BOUNDLE_ID
   script:
