@@ -3,7 +3,7 @@ from time import sleep
 
 from selenium.common.exceptions import NoSuchElementException
 
-from app.api import API
+from app.get_api import GetAPI
 from locators.movies_locators import MoviesPageLocators
 from locators.places_locators import PlacesPageLocators
 from locators.popup_locators import PopupLocators
@@ -93,9 +93,9 @@ class MoviesPage(RecordTimeout, Wait):
             self.act.swipe(80, 30, 20, 30)
         self.act.click_by_coords(50, 30)
         name_movie = self.find_element(*self.movies_details_locators.text_event_name).text
-        id_city = API.get_id_city(city)
-        session_id = API.get_session_id_movies_featured(name_movie, id_city, _number_place, _number_session)
-        response = API.get_json_hall(session_id)
+        id_city = GetAPI.get_id_city(city)
+        session_id = GetAPI.get_session_id_movies_featured(name_movie, id_city, _number_place, _number_session)
+        response = GetAPI.get_json_hall(session_id)
         try:
             self.click(*self.movies_details_locators.btn_back)
             return response['covidNotification']

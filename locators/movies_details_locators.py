@@ -11,7 +11,7 @@ class MoviesDetailsPageLocators(MobileBy):
         self.text_time = (self.ACCESSIBILITY_ID, 'eventTagLabel')
         self.btn_view_timetable = (self.ACCESSIBILITY_ID, 'buyTicketButton')
         self.btn_back = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`label == "Назад"`]')
-        self.img_gallery = (self.ACCESSIBILITY_ID, 'imageView')
+        self.img_gallery = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeImage[`name == "imageView"`][1]')
         self.btn_popup_next = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`label == "ПОНЯТНО"`]')
         self.text_popup_header = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeStaticText[`label == "Топовые события"`]')
         self.btn_time_session = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeCell[`name == "sessionCollectionCell"`][1]')

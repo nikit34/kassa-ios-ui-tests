@@ -2,7 +2,7 @@ from time import sleep
 import pytest
 import allure
 
-from app.api import DebugAPI
+from app.debug_api import DebugAPI
 from locators.movies_details_locators import MoviesDetailsPageLocators
 from locators.movies_locators import MoviesPageLocators
 from locators.shedule_locators import ShedulePageLocators

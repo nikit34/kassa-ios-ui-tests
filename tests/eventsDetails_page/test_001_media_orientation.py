@@ -6,6 +6,7 @@ from locators.movies_locators import MoviesPageLocators
 from locators.movies_details_locators import MoviesDetailsPageLocators
 from screens.MoviesPage import MoviesPage
 from screens.MoviesDetailsPage import MoviesDetailsPage
+from app.debug_api import DebugAPI
 
 
 @allure.testcase('http://testrail.rambler-co.ru/index.php?/cases/view/712859', 'testrail points: all')
