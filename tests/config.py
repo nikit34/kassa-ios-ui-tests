@@ -4,7 +4,7 @@ APPIUM_LOCAL = 'http://0.0.0.0:4723/wd/hub'  # local
 DESIRED_CAPS_NO_CACHE_HOST = {
     'platformName': 'iOS',
     'automationName': 'XCUITest',
-    'platformVersion': '14.4',
+    'platformVersion': '14.5',
     'deviceName': 'iPhone 12 Pro Max',  # host
     'useJSONSource': True,
     'noReset': False,
@@ -15,7 +15,7 @@ DESIRED_CAPS_NO_CACHE_HOST = {
 DESIRED_CAPS_HOST = {
     'platformName': 'iOS',
     'automationName': 'XCUITest',
-    'platformVersion': '14.4',
+    'platformVersion': '14.5',
     'deviceName': 'iPhone 12 Pro Max',  # host
     'useJSONSource': True,
     'noReset': True,
@@ -26,7 +26,7 @@ DESIRED_CAPS_HOST = {
 DESIRED_CAPS_NO_CACHE_LOCAL = {
     'platformName': 'iOS',
     'automationName': 'XCUITest',
-    'platformVersion': '14.4',
+    'platformVersion': '14.5',
     'deviceName': 'iPhone 12 Pro Max',  # local
     'useJSONSource': True,
     'noReset': False,
@@ -38,7 +38,7 @@ DESIRED_CAPS_NO_CACHE_LOCAL = {
 DESIRED_CAPS_LOCAL = {
     'platformName': 'iOS',
     'automationName': 'XCUITest',
-    'platformVersion': '14.4',
+    'platformVersion': '14.5',
     'deviceName': 'iPhone 12 Pro Max',  # local
     'useJSONSource': True,
     'noReset': True,
