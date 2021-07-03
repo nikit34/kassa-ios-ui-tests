@@ -23,14 +23,19 @@ class Test_001_MoviePage:
         Перейти в галерею внутри карточки мероприятия, повернуть девайс
         Выйти из галереи"""
         with allure.step('MoviesPage'):
+            dbg_api = DebugAPI.run(request=False, response=True, switch_proxy=True)
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
+            sleep(5)
             self.movie_page.click(*self.movies_locators.img_row_top)
         with allure.step('MoviesDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(10)
-            self.event_detail_page.click(*self.movies_details_locators.img_gallery)
-            self.event_detail_page.check_img_gallery_orientation()
+            sleep(7)
+            if self.event_detail_page.check_img_view(dbg_api, '/creations/movie/'):
+                self.event_detail_page.click(*self.movies_details_locators.img_gallery)
+                self.event_detail_page.check_img_gallery_orientation()
+            dbg_api.kill()
 
     def test_002_open_video_full_screen(self, driver):
         """Открыть видео в карточке на фулскрин"""

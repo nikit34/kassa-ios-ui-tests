@@ -28,7 +28,7 @@ class DebugAPI:
         self.response = response
         self.switch_proxy = switch_proxy
         self.timeout_recard = timeout_recard
-        self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/api.log'
+        self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/'
 
     class AddonReqRes:
         def __init__(self, timeout_recard):
@@ -40,7 +40,7 @@ class DebugAPI:
             method = flow.request.method
             url = flow.request.url
             content = flow.request.content.decode('UTF-8')
-            if time() - self.timeout_now > self.timeout_recard:
+            if time() - self.timeout_now >= self.timeout_recard:
                 _logging(this, method, url, content)
 
         def response(self, flow):
@@ -48,7 +48,7 @@ class DebugAPI:
             method = flow.request.method
             url = flow.request.url
             content = flow.response.content.decode('UTF-8')
-            if time() - self.timeout_now > self.timeout_recard:
+            if time() - self.timeout_now >= self.timeout_recard:
                 _logging(this, method, url, content)
 
     class AddonReq:
@@ -61,7 +61,7 @@ class DebugAPI:
             method = flow.request.method
             url = flow.request.url
             content = flow.request.content.decode('UTF-8')
-            if time() - self.timeout_now > self.timeout_recard:
+            if time() - self.timeout_now >= self.timeout_recard:
                 _logging(this, method, url, content)
 
     class AddonRes:
@@ -74,7 +74,7 @@ class DebugAPI:
             method = flow.request.method
             url = flow.request.url
             content = flow.response.content.decode('UTF-8')
-            if time() - self.timeout_now > self.timeout_recard:
+            if time() - self.timeout_now >= self.timeout_recard:
                 _logging(this, method, url, content)
 
     @staticmethod
@@ -107,8 +107,8 @@ class DebugAPI:
         self._start_logging()
 
     @classmethod
-    def run(cls, request=True, response=True):
-        self = cls(request, response)
+    def run(cls, request=True, response=True, switch_proxy=True, timeout_recard=0):
+        self = cls(request, response, switch_proxy, timeout_recard)
         if self.switch_proxy:
             self.enable_proxy(mode=True)
         m = self._setup()
@@ -124,7 +124,7 @@ class DebugAPI:
         self.t.join()
         if self.switch_proxy:
             self.enable_proxy(mode=False)
-        self.clear_buffer()
+        # self.clear_buffer()
 
     @staticmethod
     def enable_proxy(mode=True):

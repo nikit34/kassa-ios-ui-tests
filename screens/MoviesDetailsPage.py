@@ -5,6 +5,7 @@ from allure_commons.types import AttachmentType
 from skimage import io
 import allure
 
+from app.check_api import CheckAPI
 from locators.movies_details_locators import MoviesDetailsPageLocators
 from locators.popup_locators import PopupLocators
 from utils.factory_screenshots import Screenshot
@@ -83,4 +84,22 @@ class MoviesDetailsPage(RecordTimeout, Wait):
             allure.attach(self.driver.get_screenshot_as_png(), name='screenshot_video', attachment_type=AttachmentType.PNG)
             error.args += ('logging error', '[FAILED] check video - it hasn\'t opened in full screen mode')
             raise ArithmeticError('[FAILED] check video - it hasn\'t opened in full screen mode')
+
+    @staticmethod
+    def _check_images_url(url_part, url_pattern):
+        right_url_part = url_part.split(url_pattern)[1]
+        if right_url_part.endswith('images'):
+            return True
+        return False
+
+    def check_img_view(self, dbg_api, url_pattern=''):
+        for line in dbg_api.read_buffer():
+            if CheckAPI.check_single_page_url(url_pattern, line, num_after=6):
+                url_part, content_part = line.split(';', 5)[3:]
+                if self._check_images_url(url_part, url_pattern):
+                    if '[]' in content_part :
+                        return False
+                    return True
+        raise ValueError(f'{url_pattern} has not been found')
+
 

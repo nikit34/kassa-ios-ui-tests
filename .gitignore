@@ -89,4 +89,5 @@ screenshots/
 
 tank_errors.log
 
-app/api.log
+app/mapi.log
+app/other.log
