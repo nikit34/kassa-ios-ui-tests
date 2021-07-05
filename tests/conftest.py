@@ -62,14 +62,9 @@ def driver(request):
     driver.quit()
 
 
-@pytest.fixture(autouse=True, scope='session')
-def my_fixture():
-    yield
-    sys.exit()
-
-
 @pytest.fixture(scope='session')
 def db_session(request):
     yield
     disconnect_db()
+    sys.exit()
 
