@@ -1,5 +1,6 @@
 import pytest
 import os
+import sys
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -59,6 +60,12 @@ def driver(request):
     driver.wait = WebDriverWait(driver, 5)
     yield driver
     driver.quit()
+
+
+@pytest.fixture(autouse=True, scope='session')
+def my_fixture():
+    yield
+    sys.exit()
 
 
 @pytest.fixture(scope='session')
