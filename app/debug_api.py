@@ -124,7 +124,7 @@ class DebugAPI:
         self.t.join()
         if self.switch_proxy:
             self.enable_proxy(mode=False)
-        # self.clear_buffer()
+        self.clear_buffer()
 
     @staticmethod
     def enable_proxy(mode=True):
