@@ -7,6 +7,8 @@ from mitmproxy.tools.dump import DumpMaster
 import threading
 import asyncio
 from time import time
+import signal
+import json
 
 
 def _logging(this, method, url, content=''):
@@ -20,6 +22,7 @@ def _logging(this, method, url, content=''):
         line = logging_time + ';' + this + ';' + method + ';' + url + '\n'
     with open(path_log, 'a+') as f:
         f.write(line)
+        f.flush()
 
 
 class DebugAPI:
@@ -80,7 +83,10 @@ class DebugAPI:
     @staticmethod
     def _loop_in_thread(loop, m):
         asyncio.set_event_loop(loop)
-        m.run_loop(loop.run_forever)
+        try:
+            m.run_loop(loop.run_forever)
+        finally:
+            loop.close()
 
     def _setup(self):
         options = Options(listen_host='0.0.0.0', listen_port=8080, http2=True)
@@ -94,6 +100,7 @@ class DebugAPI:
         start_time = datetime.now().strftime("%H:%M:%S")
         with open(self.path_log + 'mapi.log', 'a+') as f:
             f.write(start_time + '\n')
+            f.flush()
 
     def _addon_setup(self, m):
         if self.request and self.response:
@@ -113,11 +120,17 @@ class DebugAPI:
             self.enable_proxy(mode=True)
         m = self._setup()
         loop = asyncio.get_event_loop()
+        loop.add_signal_handler(signal.SIGTERM, self.close_loop, loop)
         t = threading.Thread(target=self._loop_in_thread, args=(loop, m))
         t.start()
         setattr(self, 'm', m)
         setattr(self, 't', t)
         return self
+
+    @staticmethod
+    def close_loop(loop):
+        loop.remove_signal_handler(signal.SIGTERM)
+        loop.stop()
 
     def kill(self):
         self.m.shutdown()
@@ -142,6 +155,13 @@ class DebugAPI:
         with open(file, 'r') as reader:
             for line in reader.readlines():
                 yield line
+
+    @staticmethod
+    def get_content_response(line):
+        split_line = line.split(';', 4)
+        if len(split_line) < 5:
+            raise ValueError('response is not valid')
+        return json.loads(split_line[4])
 
     def clear_buffer(self):
         open(self.path_log + 'mapi.log', 'w').close()
