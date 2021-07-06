@@ -24,4 +24,5 @@ class PaymentPage(RecordTimeout, Wait):
             else:
                 assert elem.text == '0', f'[FAILED] {locator} has choices'
         except AssertionError as error:
-            raise base_error(self.driver, error, *locator, crash_site='click', msg='has choices')
+            base_error(self.driver, *locator, crash_site='click', msg='has choices')
+            raise error

@@ -51,7 +51,8 @@ class MoviesPage(RecordTimeout, Wait):
         sessions = self.driver.find_elements(*locator)
         self.click_elem(sessions[_number_session])
         if len(sessions) == 0:
-            raise base_error(self.driver, ValueError, *locator, crash_site='click_elem', msg='No session buttons found')
+            base_error(self.driver, *locator, crash_site='click_elem', msg='No session buttons found')
+            raise ValueError('[FAILED] Sessions dont selected')
 
     def pass_allow_photo_media(self):
         try:
