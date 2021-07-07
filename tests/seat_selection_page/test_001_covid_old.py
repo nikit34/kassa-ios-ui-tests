@@ -41,6 +41,7 @@ class Test_001_InfoPage:
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(10)
+            self.event_detail_page.act.click_by_coords(50, 30)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
         with allure.step('InfoPage'):
@@ -70,6 +71,7 @@ class Test_002_InfoPage:
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(10)
+            self.event_detail_page.act.click_by_coords(50, 30)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
         with allure.step('InfoPage'):
@@ -91,6 +93,7 @@ class Test_002_InfoPage:
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(10)
+            self.event_detail_page.act.click_by_coords(50, 30)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
         with allure.step('InfoPage'):
@@ -112,6 +115,7 @@ class Test_002_InfoPage:
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(10)
+            self.event_detail_page.act.click_by_coords(50, 30)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
         with allure.step('InfoPage'):
@@ -137,6 +141,7 @@ class Test_002_InfoPage:
         with allure.step('EventDetailsPage'):
             self.event_detail_page = MoviesDetailsPage(driver)
             self.event_detail_page.set_custom_wait(10)
+            self.event_detail_page.act.click_by_coords(50, 30)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             self.event_detail_page.click(*self.event_detail_page_locators.btn_time_session)
         with allure.step('InfoPage'):

@@ -87,11 +87,15 @@ class MoviesPage(RecordTimeout, Wait):
         else:
             assert not elem.is_selected(), f'invalid state: {elem}'
 
-    def get_json_covid_notification(self, city='Абдулино', _number_slide=0, _number_place=0, _number_session=0):
+    def swipe_slides(self, _number_slide):
         sleep(self.get_last_wait() / 2)  # МАИ любит костыли
         for i in range(_number_slide):
             sleep(2)
             self.act.swipe(80, 30, 20, 30)
+            sleep(1)
+
+    def get_json_covid_notification(self, city='Абдулино', _number_slide=0, _number_place=0, _number_session=0):
+        self.swipe_slides(_number_slide)
         self.act.click_by_coords(50, 30)
         name_movie = self.find_element(*self.movies_details_locators.text_event_name).text
         id_city = GetAPI.get_id_city(city)
@@ -102,7 +106,7 @@ class MoviesPage(RecordTimeout, Wait):
             return response['covidNotification']
         except KeyError:
             _number_slide += 1
-            self.click(*self.movies_details_locators.btn_back)
-            return self.get_json_covid_notification(city=city, _number_slide=_number_slide, _number_place=_number_place, _number_session=_number_session)
+        self.click(*self.movies_details_locators.btn_back)
+        return self.get_json_covid_notification(city=city, _number_slide=_number_slide, _number_place=_number_place, _number_session=_number_session)
 
 

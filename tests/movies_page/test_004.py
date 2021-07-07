@@ -195,7 +195,7 @@ class Test_001_MoviePage:
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
             sleep(2)
-            self.movie_page.act.swipe(50, 80, 50, 20)
+            self.movie_page.act.swipe(50, 60, 50, 40)
             sleep(1)
             self.movie_page.click(*self.movies_locators.img_row_popular)
         with allure.step('MoviesDetailsPage'):
@@ -208,7 +208,7 @@ class Test_001_MoviePage:
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
-            sleep(5)
+            sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
@@ -224,7 +224,7 @@ class Test_001_MoviePage:
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
-            sleep(5)
+            sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.act.swipe(50, 60, 50, 40)
             sleep(1)
@@ -239,7 +239,7 @@ class Test_001_MoviePage:
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
-            sleep(5)
+            sleep(2)
             self.movie_page.act.swipe(50, 70, 50, 30)
             self.movie_page.act.swipe(50, 60, 50, 40)
             sleep(1)
@@ -255,23 +255,22 @@ class Test_001_MoviePage:
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
-            sleep(5)
+            sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
-            self.movie_page.act.swipe(50, 60, 50, 40)
             sleep(1)
             self.movie_page.click(*self.movies_locators.text_row_premiers_all)
         with allure.step('ShedulePage'):
             self.schedule_page = ShedulePage(driver)
             self.schedule_page.set_custom_wait(10)
-            self.schedule_page.click(*self.shedule_locators.btn_fastbuy_ticket)
-            self.schedule_page.find_element(*self.shedule_locators.col_session_table)
+            self.schedule_page.find_element(*self.shedule_locators.btn_fastbuy_ticket)
+            self.schedule_page.find_element(*self.shedule_locators.btn_session_data)
 
     def test_0019_close_schedule_from_vertical_carousel(self, driver):
         """Закрываем расписание из карусели премьер и попадаем на эвент детейлз"""
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
-            sleep(5)
+            sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.act.swipe(50, 60, 50, 40)
             sleep(1)
@@ -280,7 +279,7 @@ class Test_001_MoviePage:
             self.schedule_page = ShedulePage(driver)
             self.schedule_page.set_custom_wait(10)
             self.schedule_page.click(*self.shedule_locators.btn_fastbuy_ticket)
-            self.schedule_page.click(*self.shedule_locators.btn_back_bar)
+            self.schedule_page.click(*self.shedule_locators.btn_close)
             self.schedule_page.find_element(*self.movies_details_locators.btn_back)
 
     def test_0020_exit_from_premier_carousel(self, driver):
@@ -288,7 +287,7 @@ class Test_001_MoviePage:
         with allure.step('MoviesPage'):
             self.movie_page = MoviesPage(driver)
             self.movie_page.set_custom_wait(10)
-            sleep(5)
+            sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             self.movie_page.act.swipe(50, 60, 50, 40)
             sleep(1)

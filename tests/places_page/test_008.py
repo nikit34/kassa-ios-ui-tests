@@ -7,7 +7,6 @@ from screens.PlacesPage import PlacesPage
 from locators.common_locators import CommonLocators
 
 
-
 @pytest.mark.usefixtures('driver')
 class Test_001_PlacesPage:
     @classmethod
@@ -24,6 +23,7 @@ class Test_001_PlacesPage:
         with allure.step('PerformancePage'):
             self.places_page = PlacesPage(driver)
             self.places_page.set_custom_wait(10)
+            self.places_page.click(*self.places_locators.btn_popup_next)
             self.places_page.allow_geolocation()
             self.places_page.find_element(*self.places_locators.row_events)
 

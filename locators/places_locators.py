@@ -11,4 +11,5 @@ class PlacesPageLocators(MobileBy):
         self.row_labels = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeCollectionView[`name == "collectionView"`][2]')
         self.btn_allow_location = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`label == "Разрешить геолокацию"`]')
         self.btn_cancel_location = (self.ACCESSIBILITY_ID, 'Cross')
+        self.btn_popup_next = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeButton[`label == "ПОНЯТНО"`]')
         self.row_events = (self.IOS_CLASS_CHAIN, '**/XCUIElementTypeTable[`name == "tableView"`]/XCUIElementTypeCell[2]')

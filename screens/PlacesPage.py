@@ -1,3 +1,5 @@
+from time import sleep
+
 from selenium.common.exceptions import NoSuchElementException
 
 from locators.places_locators import PlacesPageLocators
@@ -34,6 +36,7 @@ class PlacesPage(RecordTimeout, Wait):
         try:
             self.find_element(*self.places_locators.btn_cancel_location)
             self.click(*self.places_locators.btn_allow_location)
+            sleep(1)
             self.not_displayed(*self.places_locators.btn_allow_location)
         except NoSuchElementException:
             pass
