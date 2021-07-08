@@ -87,7 +87,7 @@ class ShedulePage(RecordTimeout, Wait):
             datetime_name_day = datetime_obj.strftime("%A")
             first_row_item['number_day'] = datetime_obj.day
             first_row_item['name_day'] = convert_name_day(datetime_name_day)
-            second_row.append(first_row_item)
+            second_row.append(first_row_item.copy())
         return second_row
 
     def _find_first_filter(self, locators, count_swipe):
