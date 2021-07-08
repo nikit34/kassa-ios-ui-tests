@@ -31,6 +31,7 @@ class ShedulePage(RecordTimeout, Wait):
                     and '/creations/movie/' in sep_req_line[2] \
                     and '/schedule' in sep_req_line[2]:
                 return json.loads(sep_req_line[3])
+        raise ValueError('[FAILED] dont found')
 
     @staticmethod
     def get_first_row_filters(content):

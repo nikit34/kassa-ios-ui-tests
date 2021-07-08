@@ -7,7 +7,6 @@ from mitmproxy.tools.dump import DumpMaster
 import threading
 import asyncio
 from time import time
-import signal
 import json
 
 
@@ -83,10 +82,10 @@ class DebugAPI:
     @staticmethod
     def _loop_in_thread(loop, m):
         asyncio.set_event_loop(loop)
-        try:
+        t = threading.currentThread()
+        while getattr(t, "open_loop", True):
             m.run_loop(loop.run_forever)
-        finally:
-            loop.close()
+        loop.stop()
 
     def _setup(self):
         options = Options(listen_host='0.0.0.0', listen_port=8080, http2=True)
@@ -120,20 +119,15 @@ class DebugAPI:
             self.enable_proxy(mode=True)
         m = self._setup()
         loop = asyncio.get_event_loop()
-        loop.add_signal_handler(signal.SIGTERM, self.close_loop, loop)
         t = threading.Thread(target=self._loop_in_thread, args=(loop, m))
         t.start()
         setattr(self, 'm', m)
         setattr(self, 't', t)
         return self
 
-    @staticmethod
-    def close_loop(loop):
-        loop.remove_signal_handler(signal.SIGTERM)
-        loop.stop()
-
     def kill(self):
         self.m.shutdown()
+        self.t.open_loop = False
         self.t.join()
         if self.switch_proxy:
             self.enable_proxy(mode=False)

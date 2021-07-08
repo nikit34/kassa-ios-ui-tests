@@ -55,6 +55,7 @@ class Test_001_ShedulePage:
             with allure.step('MoviesPage'):
                 self.movie_page = MoviesPage(driver)
                 self.movie_page.set_custom_wait(10)
+                sleep(10)
                 self.movie_page.act.click_by_coords(50, 30)
             with allure.step('EventDetailsPage'):
                 self.event_detail_page = MoviesDetailsPage(driver)
