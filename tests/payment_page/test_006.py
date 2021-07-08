@@ -11,7 +11,7 @@ from locators.checkout_locators import CheckoutPageLocators
 
 @allure.severity(allure.severity_level.CRITICAL)
 @pytest.mark.usefixtures('driver')
-class Test_001_PerformancePage:
+class Test_001_PaymentPage:
     @classmethod
     def setup_class(cls):
         cls.checkout_locators = CheckoutPageLocators()

@@ -30,7 +30,7 @@ class ShedulePage(RecordTimeout, Wait):
                     and sep_req_line[1] == 'GET' \
                     and '/creations/movie/' in sep_req_line[2] \
                     and '/schedule' in sep_req_line[2]:
-                yield json.loads(sep_req_line[3])
+                return json.loads(sep_req_line[3])
 
     @staticmethod
     def get_first_row_filters(content):
@@ -118,7 +118,7 @@ class ShedulePage(RecordTimeout, Wait):
                     base_filter.find_element(*name_text_locator_copy)
 
     def check_rows_filters(self, dbg_api):
-        content = next(self.get_content_creations_movie_schedule(dbg_api))
+        content = self.get_content_creations_movie_schedule(dbg_api)
         first_row_filters = self.get_first_row_filters(content)
         self.check_first_row_filters(first_row_filters)
         second_row_filters = self.get_second_row_filters(content, self.get_datetime_options)

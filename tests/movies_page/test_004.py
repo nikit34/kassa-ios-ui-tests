@@ -211,7 +211,7 @@ class Test_001_MoviePage:
             sleep(2)
             self.movie_page.act.swipe(50, 80, 50, 20)
             sleep(2)
-            self.movie_page.act.swipe(50, 80, 50, 20)
+            self.movie_page.act.swipe(50, 60, 50, 40)
             sleep(1)
             self.movie_page.click(*self.movies_locators.img_row_popular)
         with allure.step('MoviesDetailsPage'):
