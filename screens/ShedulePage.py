@@ -90,13 +90,26 @@ class ShedulePage(RecordTimeout, Wait):
             second_row.append(first_row_item)
         return second_row
 
+    def _find_first_filter(self, locators, count_swipe):
+        try:
+            self.find_element(*locators)
+        except NoSuchElementException:
+            if count_swipe < 8:
+                self.act.swipe(80, 33, 20, 33)
+                count_swipe += 1
+                self._find_first_filter(locators, count_swipe)
+            else:
+                raise NoSuchElementException('elem of first filter dont found')
+        for _ in range(count_swipe):
+            self.act.swipe(20, 33, 80, 33)
+
     def check_first_row_filters(self, row):
         for item_row in row:
             selector = item_row['title']
             if selector != 'IMAX':
                 selector = selector.capitalize()
             locators = (self.shedule_locators.ACCESSIBILITY_ID, selector)
-            self.find_element(*locators)
+            self._find_first_filter(locators, 0)
 
     def check_second_row_filters(self, row):
         current_base_locator_copy = self.shedule_locators.template_base_second_filters.copy()
