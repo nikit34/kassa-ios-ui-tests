@@ -60,10 +60,12 @@ class Test_001_ShedulePage:
             with allure.step('EventDetailsPage'):
                 self.event_detail_page = MoviesDetailsPage(driver)
                 self.event_detail_page.set_custom_wait(10)
+                sleep(2)
                 self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             with allure.step('ShedulePage'):
                 self.shedule_page = ShedulePage(driver)
                 self.shedule_page.set_custom_wait(10)
+                sleep(7)
                 self.shedule_page.check_rows_filters(dbg_api)
         finally:
             dbg_api.kill()

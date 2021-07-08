@@ -25,12 +25,13 @@ class ShedulePage(RecordTimeout, Wait):
     @staticmethod
     def get_content_creations_movie_schedule(dbg_api):
         for req_line in dbg_api.read_buffer():
-            sep_req_line = req_line.split(' ', 3)
-            if sep_req_line[0] == 'response' \
-                    and sep_req_line[1] == 'GET' \
-                    and '/creations/movie/' in sep_req_line[2] \
-                    and '/schedule' in sep_req_line[2]:
-                return json.loads(sep_req_line[3])
+            sep_req_line = req_line.split(';', 4)
+            if len(sep_req_line) == 5 \
+                    and sep_req_line[1] == 'response' \
+                    and sep_req_line[2] == 'GET' \
+                    and '/creations/movie/' in sep_req_line[3] \
+                    and '/schedule' in sep_req_line[3]:
+                return json.loads(sep_req_line[4])
         raise ValueError('[FAILED] dont found')
 
     @staticmethod
