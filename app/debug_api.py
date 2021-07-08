@@ -19,9 +19,8 @@ def _logging(this, method, url, content=''):
     else:
         path_log = path_dir_log + 'other.log'
         line = logging_time + ';' + this + ';' + method + ';' + url + '\n'
-    with open(path_log, 'a+', buffering=0) as f:
+    with open(path_log, 'a+') as f:
         f.write(line)
-        f.flush()
 
 
 class DebugAPI:
@@ -99,7 +98,6 @@ class DebugAPI:
         start_time = datetime.now().strftime("%H:%M:%S")
         with open(self.path_log + 'mapi.log', 'a+') as f:
             f.write(start_time + '\n')
-            f.flush()
 
     def _addon_setup(self, m):
         if self.request and self.response:
@@ -127,7 +125,6 @@ class DebugAPI:
 
     def kill(self):
         self.m.shutdown()
-        self.t.open_loop = False
         self.t.join()
         if self.switch_proxy:
             self.enable_proxy(mode=False)
@@ -147,14 +144,10 @@ class DebugAPI:
         else:
             file += 'other.log'
         count = 0
-        with open(file, 'r', buffering=0) as reader:
+        with open(file, 'r') as reader:
             for line in reader.readlines():
                 count += 1
                 yield line
-        file = file.replace('mapi.log','other.log')
-        with open(file, 'a+', buffering=0) as dbg:
-            dbg.write('----->' + str(count))
-            dbg.flush()
 
     @staticmethod
     def get_content_response(line):

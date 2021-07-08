@@ -55,7 +55,7 @@ class Test_001_ShedulePage:
             with allure.step('MoviesPage'):
                 self.movie_page = MoviesPage(driver)
                 self.movie_page.set_custom_wait(10)
-                sleep(10)
+                sleep(5)
                 self.movie_page.act.click_by_coords(50, 30)
             with allure.step('EventDetailsPage'):
                 self.event_detail_page = MoviesDetailsPage(driver)
@@ -65,7 +65,8 @@ class Test_001_ShedulePage:
             with allure.step('ShedulePage'):
                 self.shedule_page = ShedulePage(driver)
                 self.shedule_page.set_custom_wait(10)
-                sleep(7)
+                sleep(5)
+                dbg_api.t.open_loop = False
                 self.shedule_page.check_rows_filters(dbg_api)
         finally:
             dbg_api.kill()
