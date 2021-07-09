@@ -37,16 +37,18 @@ class Page:
         try:
             elem = self.driver.find_element(*locator)
             assert elem.is_displayed(), f'[find_element] {locator} is not displayed'
+            return elem
         except (NoSuchElementException, AssertionError) as error:
             print(f'\n[find_element] increment implicitly wait on {extra_interval} time')
             self.driver.implicitly_wait(extra_interval)
             try:
                 elem = self.driver.find_element(*locator)
                 assert elem.is_enabled(), f'[find_element] {locator} is not enabled'
+                return elem
             except (NoSuchElementException, AssertionError) as error:
                 self.driver.implicitly_wait(0)
                 base_error(self.driver, *locator, crash_site='find_element -> nested except', msg='is not displayed')
-        return elem
+
 
     @_increase_wait_
     def click(self, *locator):

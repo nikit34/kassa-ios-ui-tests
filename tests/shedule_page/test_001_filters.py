@@ -89,6 +89,8 @@ class Test_001_ShedulePage:
             with allure.step('ShedulePage'):
                 self.shedule_page = ShedulePage(driver)
                 self.shedule_page.set_custom_wait(10)
-                self.shedule_page.compare_time_tickets_second_filter(dbg_api)
+                sleep(5)
+                dbg_api.t.open_loop = False
+                self.shedule_page.compare_tickets_datetime_options_second_filter(dbg_api)
         finally:
             dbg_api.kill()

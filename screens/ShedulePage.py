@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from selenium.common.exceptions import NoSuchElementException
+from random import randint
 
 from locators.shedule_locators import ShedulePageLocators
 from templates.action import Action
@@ -161,60 +162,76 @@ class ShedulePage(RecordTimeout, Wait):
             tickets.append(ticket)
         return tickets
 
-    def search_ticket(self, ticket):
-        text_split_ticket_top_selector = self.shedule_locators.template_ticket_top[1].split('"')
-        template_ticket_name_copy = self.shedule_locators.template_ticket_top.copy()
-        template_ticket_address_copy = self.shedule_locators.template_ticket_top.copy()
-        template_ticket_metro_copy = self.shedule_locators.template_ticket_top.copy()
-        template_ticket_name_copy[1] = text_split_ticket_top_selector[0] + '"' + \
-                                       ticket['ticket_name'] + '"' + \
+    def _get_locators_ticket_single_field(self, ticket, ticket_field, text_split_ticket_top_selector):
+        template_ticket_copy = self.shedule_locators.template_ticket_top.copy()
+        template_ticket_copy[1] = text_split_ticket_top_selector[0] + '"' + \
+                                       ticket[ticket_field] + '"' + \
                                        text_split_ticket_top_selector[2]
-        template_ticket_address_copy[1] = text_split_ticket_top_selector[0] + '"' + \
-                                          ticket['ticket_address'] + '"' + \
-                                          text_split_ticket_top_selector[2]
-        templates_ticket_metro_copy = []
-        for m in ticket['metros']:
-            template_ticket_metro_copy[1] = text_split_ticket_top_selector[0] + '"' + m + '"' + \
+        return template_ticket_copy
+
+    def _get_locators_ticket_more_field(self, ticket, ticket_field, text_split_ticket_top_selector):
+        template_ticket_copy = self.shedule_locators.template_ticket_top.copy()
+        templates_ticket_more_copy = []
+        for m in ticket[ticket_field]:
+            template_ticket_copy[1] = text_split_ticket_top_selector[0] + '"' + m + '"' + \
                                             text_split_ticket_top_selector[2]
-            templates_ticket_metro_copy.append(template_ticket_metro_copy)
+            templates_ticket_more_copy.append(template_ticket_copy)
+        return templates_ticket_more_copy
+    
+    def _search_ticket(self, template_ticket_name_copy, template_ticket_address_copy, templates_ticket_metro_copy):
+        self.find_element(*template_ticket_name_copy)
+        self.find_element(*template_ticket_address_copy)
+        random_index_metro = randint(0, len(templates_ticket_metro_copy) - 1)
+        self.find_element(*templates_ticket_metro_copy[random_index_metro])
+
+    def _find_or_swipe_ticket(self, ticket):
+        text_split_ticket_top_selector = self.shedule_locators.template_ticket_top[1].split('"')
+        template_ticket_name_copy = self._get_locators_ticket_single_field(ticket, 'ticket_name', text_split_ticket_top_selector)
+        template_ticket_address_copy = self._get_locators_ticket_single_field(ticket, 'ticket_address', text_split_ticket_top_selector)
+        templates_ticket_metro_copy = self._get_locators_ticket_more_field(ticket, 'metros', text_split_ticket_top_selector)
         last_wait = self.get_last_wait()
         self.set_custom_wait(5)
         try:
-            self.find_element(*template_ticket_name_copy)
-            self.find_element(*template_ticket_address_copy)
-            for m in templates_ticket_metro_copy:
-                self.find_element(*m)
+            self._search_ticket(template_ticket_name_copy, template_ticket_address_copy, templates_ticket_metro_copy)
         except NoSuchElementException:
             self.act.swipe(50, 60, 50, 40)
-            self.find_element(*template_ticket_name_copy)
-            self.find_element(*template_ticket_address_copy)
-            for m in templates_ticket_metro_copy:
-                self.find_element(*m)
+            self._search_ticket(template_ticket_name_copy, template_ticket_address_copy, templates_ticket_metro_copy)
         self.set_custom_wait(last_wait)
+
+    def _search_ticket_by_datetime_options(self, tickets, datetime_options, i):
+        for j, ticket in enumerate(tickets):
+            datetime_options_day = str(datetime_options[i].day)
+            if len(datetime_options_day) == 1:
+                datetime_options_day = '0' + datetime_options_day
+            count_coincidences = 0
+            for session in ticket['sessions']:
+                ticket_day = session[8:10]
+                if datetime_options_day == ticket_day:
+                    count_coincidences += 1
+            if count_coincidences <= len(ticket['sessions']):
+                self._find_or_swipe_ticket(ticket)
+            else:
+                raise ValueError("[FAILED] There are sessions for other days")
+
+    def _click_next_second_filter(self, text_locator, text_split_second_filter_selector, datetime_options):
+        text_locator[1] = text_split_second_filter_selector[0] + '"' + str(datetime_options[i + 1].day) + '"' + \
+                          text_split_second_filter_selector[2]
+        elem = self.find_element(*text_locator)
+        self.click_elem(elem)
 
     def compare_date(self, datetime_options, tickets, dbg_api):
         text_locator = self.shedule_locators.template_text_second_filters
         text_split_second_filter_selector = text_locator[1].split('"')
         len_section_options = 4
         for i in range(len_section_options):
-            for j, ticket in enumerate(tickets):
-                for session in ticket['sessions']:
-                    ticket_day = session[8:10]
-                    datetime_options_day = str(datetime_options[i].day)
-                    if len(datetime_options_day) == 1:
-                        datetime_options_day = '0' + datetime_options_day
-                    if datetime_options_day == ticket_day:
-                        self.search_ticket(ticket)
-            text_locator[1] = text_split_second_filter_selector[0] + '"' + str(datetime_options[i + 1].day) + '"' + \
-                              text_split_second_filter_selector[2]
-            elem = self.find_element(*text_locator)
-            self.click_elem(elem)
-            content = next(self.get_content_creations_movie_schedule(dbg_api))
+            self._search_ticket_by_datetime_options(tickets, datetime_options, i)
+            self._click_next_second_filter(text_locator, text_split_second_filter_selector, datetime_options)
+            content = self.get_content_creations_movie_schedule(dbg_api)
             tickets = self.get_tickets(content)
             self.compare_date(datetime_options, tickets, dbg_api)
 
-    def compare_time_tickets_second_filter(self, dbg_api):
-        content = next(self.get_content_creations_movie_schedule(dbg_api))
+    def compare_tickets_datetime_options_second_filter(self, dbg_api):
+        content = self.get_content_creations_movie_schedule(dbg_api)
         datetime_options = self.get_datetime_options(content)
         tickets = self.get_tickets(content)
         datetime_options.sort()
