@@ -113,6 +113,12 @@ postgres_job:
     include:
       - local: .postgres-stage.yml
 
+redis_job:
+  stage: environment
+  trigger:
+    include:
+      - local: .redis-stage.yml
+
 install_job:
   stage: install
   tags:
@@ -171,6 +177,7 @@ pytest_job:
     - killall Appium || true
     - killall node || true
     - killall Simulator || true
+    - echo $IOS_HOST_PASSWORD | sudo -S pkill redis-server || true
     - python3 telegram_bot/client.py -n test_job
   artifacts:
     when: always
