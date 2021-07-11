@@ -30,6 +30,8 @@ class RecordTimeout(Page):
         len_inspect_stack = len(inspect_stack)
         while i < len_inspect_stack and not inspect_stack[i].function.startswith('test_'):
             i += 1
+        if len_inspect_stack == i:
+            return 'unknown'
         return inspect_stack[i].function
 
     def _count_call_unique_func(self, name_calling_func):

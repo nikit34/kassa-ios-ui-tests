@@ -198,12 +198,14 @@ class DebugAPI:
         else:
             os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxystate Wi-Fi off')
 
-    def read_buffer(self, read_mapi=True):
+    def clear_buffer(self):
+        open(self.path_log + 'mapi.log', 'w').close()
+        open(self.path_log + 'other.log', 'w').close()
+
+    def read_buffer(self, name_file=None):
         file = self.path_log
-        if read_mapi:
-            file += 'mapi.log'
-        else:
-            file += 'other.log'
+        if name_file:
+            file += name_file
         with open(file, 'r') as reader:
             for line in reader.readlines():
                 yield line
@@ -214,10 +216,6 @@ class DebugAPI:
         if len(split_line) < 5:
             raise ValueError('response is not valid')
         return json.loads(split_line[4])
-
-    def clear_buffer(self):
-        open(self.path_log + 'mapi.log', 'w').close()
-        open(self.path_log + 'other.log', 'w').close()
 
     def keep_buffer(self, old_name='mapi.log', new_name=''):
         os.rename(self.path_log + old_name, self.path_log + new_name)

@@ -93,7 +93,7 @@ class MoviesDetailsPage(RecordTimeout, Wait):
         return False
 
     def check_img_view(self, dbg_api, url_pattern=''):
-        for line in dbg_api.read_buffer():
+        for line in dbg_api.read_buffer(name_file='mapi.log'):
             if CheckAPI.check_single_page_url(url_pattern, line, num_after=6):
                 url_part, content_part = line.split(';', 5)[3:]
                 if self._check_images_url(url_part, url_pattern):

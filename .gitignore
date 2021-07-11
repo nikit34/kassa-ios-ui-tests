@@ -91,3 +91,4 @@ tank_errors.log
 
 app/mapi.log
 app/other.log
+app/redis_filter.log
