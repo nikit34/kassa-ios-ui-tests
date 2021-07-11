@@ -217,7 +217,7 @@ class DebugAPI:
             raise ValueError('response is not valid')
         return json.loads(split_line[4])
 
-    def keep_buffer(self, old_name='mapi.log', new_name=''):
+    def keep_buffer(self, old_name='', new_name=''):
         os.rename(self.path_log + old_name, self.path_log + new_name)
 
 

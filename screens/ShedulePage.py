@@ -241,5 +241,5 @@ class ShedulePage(RecordTimeout, Wait):
                 and sep_req_line[2] == 'GET' \
                 and '/creations/movie/' in sep_req_line[3] \
                 and '/schedule' in sep_req_line[3]:
-            with open('../../app/redis_filter.log', 'a+') as f:
+            with open('../../app/redis_filter.log', 'w') as f:
                 f.write(req_line)
