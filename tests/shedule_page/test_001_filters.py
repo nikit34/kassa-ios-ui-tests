@@ -50,7 +50,8 @@ class Test_001_ShedulePage:
         проверить соответствие фильтров и ответа сервера
         проверить порядок фильтров
         """
-        dbg_api = DebugAPI.run(request=False)
+        self.shedule_page = ShedulePage(driver)
+        dbg_api = DebugAPI.run(request=False, mapi_handler=self.shedule_page.check_rows_filters)
         try:
             with allure.step('MoviesPage'):
                 self.movie_page = MoviesPage(driver)
@@ -63,11 +64,8 @@ class Test_001_ShedulePage:
                 sleep(2)
                 self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             with allure.step('ShedulePage'):
-                self.shedule_page = ShedulePage(driver)
-                self.shedule_page.set_custom_wait(10)
                 sleep(5)
                 dbg_api.t.open_loop = False
-                self.shedule_page.check_rows_filters(dbg_api)
         finally:
             dbg_api.kill()
 

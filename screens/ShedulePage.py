@@ -24,16 +24,15 @@ class ShedulePage(RecordTimeout, Wait):
         self.set_wait(self.driver, wait)
 
     @staticmethod
-    def get_content_creations_movie_schedule(dbg_api):
-        for req_line in dbg_api.read_buffer():
-            sep_req_line = req_line.split(';', 4)
-            if len(sep_req_line) == 5 \
-                    and sep_req_line[1] == 'response' \
-                    and sep_req_line[2] == 'GET' \
-                    and '/creations/movie/' in sep_req_line[3] \
-                    and '/schedule' in sep_req_line[3]:
-                return json.loads(sep_req_line[4])
-        raise ValueError('[FAILED] dont found')
+    def get_content_creations_movie_schedule(msg):
+        req_line = msg['data']
+        sep_req_line = req_line.split(';', 4)
+        if len(sep_req_line) == 5 \
+                and sep_req_line[1] == 'response' \
+                and sep_req_line[2] == 'GET' \
+                and '/creations/movie/' in sep_req_line[3] \
+                and '/schedule' in sep_req_line[3]:
+            return json.loads(sep_req_line[4])
 
     @staticmethod
     def get_first_row_filters(content):
@@ -133,8 +132,8 @@ class ShedulePage(RecordTimeout, Wait):
                     name_text_locator_copy[1] = name_text_locator_copy[1] + '[1]'
                     base_filter.find_element(*name_text_locator_copy)
 
-    def check_rows_filters(self, dbg_api):
-        content = self.get_content_creations_movie_schedule(dbg_api)
+    def check_rows_filters(self, msg):
+        content = self.get_content_creations_movie_schedule(msg)
         first_row_filters = self.get_first_row_filters(content)
         self.check_first_row_filters(first_row_filters)
         second_row_filters = self.get_second_row_filters(content, self.get_datetime_options)

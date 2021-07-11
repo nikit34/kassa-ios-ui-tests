@@ -20,7 +20,7 @@ class Test_001_AuthPage:
         cls.auth_locators = AuthPageLocators()
         cls.movies_locators = MoviesPageLocators()
 
-    def test_001_auth_onboard_page_is_opened(self, driver):
+    def test_001_auth_page_is_opened(self, driver):
         with allure.step('OnboardingPage'):
             self.onboarding_page = OnboardingPage(driver)
             self.onboarding_page.set_custom_wait(10)

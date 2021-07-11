@@ -8,6 +8,7 @@ import threading
 import asyncio
 from time import time
 import json
+import redis
 
 
 def _logging(this, method, url, content=''):
@@ -23,10 +24,23 @@ def _logging(this, method, url, content=''):
         f.write(line)
 
 
+def _logging_redis(r2, this, method, url, content):
+    logging_time = datetime.now().strftime("%H:%M:%S")
+    if 'mapi.kassa.rambler.ru' in url:
+        line = logging_time + ';' + this + ';' + method + ';' + url + ';' + content
+        channel = 'mapi_log_channel'
+    else:
+        line = logging_time + ';' + this + ';' + method + ';' + url
+        channel = 'other_log_channel'
+    r2.publish(channel, line)
+
+
 class DebugAPI:
-    def __init__(self, request=True, response=True, switch_proxy=True, timeout_recard=0):
+    def __init__(self, request=True, response=True, mapi_handler=None, other_handler=None, switch_proxy=True, timeout_recard=0):
         self.request = request
         self.response = response
+        self.mapi_handler = mapi_handler
+        self.other_handler = other_handler
         self.switch_proxy = switch_proxy
         self.timeout_recard = timeout_recard
         self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/'
@@ -35,6 +49,7 @@ class DebugAPI:
         def __init__(self, timeout_recard):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
+            self.r2 = redis.Redis(host='localhost', port=6379, db=0)
 
         def request(self, flow):
             this = 'request'
@@ -42,7 +57,8 @@ class DebugAPI:
             url = flow.request.url
             content = flow.request.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                _logging(this, method, url, content)
+                # _logging(this, method, url, content)
+                _logging_redis(self.r2, this, method, url, content)
 
         def response(self, flow):
             this = 'response'
@@ -50,12 +66,14 @@ class DebugAPI:
             url = flow.request.url
             content = flow.response.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                _logging(this, method, url, content)
+                # _logging(this, method, url, content)
+                _logging_redis(self.r2, this, method, url, content)
 
     class AddonReq:
         def __init__(self, timeout_recard):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
+            self.r2 = redis.Redis(host='localhost', port=6379, db=0)
 
         def request(self, flow):
             this = 'request'
@@ -63,12 +81,14 @@ class DebugAPI:
             url = flow.request.url
             content = flow.request.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                _logging(this, method, url, content)
+                # _logging(this, method, url, content)
+                _logging_redis(self.r2, this, method, url, content)
 
     class AddonRes:
         def __init__(self, timeout_recard):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
+            self.r2 = redis.Redis(host='localhost', port=6379, db=0)
 
         def response(self, flow):
             this = 'response'
@@ -76,7 +96,8 @@ class DebugAPI:
             url = flow.request.url
             content = flow.response.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                _logging(this, method, url, content)
+                # _logging(this, method, url, content)
+                _logging_redis(self.r2, this, method, url, content)
 
     @staticmethod
     def _loop_in_thread(loop, m):
@@ -92,7 +113,38 @@ class DebugAPI:
         config = ProxyConfig(options)
         m.server = ProxyServer(config)
         self._addon_setup(m)
+        if self._check_handlers_redis(): self._connect_redis()
         return m
+
+    def _connect_redis(self):
+        r1 = redis.Redis(host='localhost', port=6379, db=0)
+        p1 = r1.pubsub()
+        setattr(self, 'p1', p1)
+
+    def _start_listen_redis(self):
+        channels = self._check_handlers_redis()
+        channel_handler = {
+            'mapi_log_channel': self.mapi_handler,
+            'other_log_channel': self.other_handler,
+        }
+        if channels:
+            if isinstance(channels, tuple):
+                for channel in channels:
+                    self.p1.subscribe(**{channel: channel_handler[channel]})
+            elif isinstance(channels, str):
+                self.p1.subscribe(**{channels: channel_handler[channels]})
+            t_redis = self.p1.run_in_thread(sleep_time=0.001)
+            setattr(self, 't_redis', t_redis)
+
+    def _check_handlers_redis(self):
+        if self.mapi_handler is not None and self.other_handler is not None:
+            return 'mapi_log_channel', 'other_log_channel'
+        elif self.mapi_handler is not None:
+            return 'mapi_log_channel'
+        elif self.other_handler is not None:
+            return 'other_log_channel'
+        else:
+            return False
 
     def _start_logging(self):
         start_time = datetime.now().strftime("%H:%M:%S")
@@ -111,23 +163,23 @@ class DebugAPI:
         self._start_logging()
 
     @classmethod
-    def run(cls, request=True, response=True, switch_proxy=True, timeout_recard=0):
-        self = cls(request, response, switch_proxy, timeout_recard)
-        if self.switch_proxy:
-            self.enable_proxy(mode=True)
+    def run(cls, request=True, response=True, mapi_handler=None, other_handler=None, switch_proxy=True, timeout_recard=0):
+        self = cls(request, response, mapi_handler, other_handler, switch_proxy, timeout_recard)
+        if self.switch_proxy: self.enable_proxy(mode=True)
         m = self._setup()
         loop = asyncio.get_event_loop()
         t = threading.Thread(target=self._loop_in_thread, args=(loop, m))
         t.start()
         setattr(self, 'm', m)
         setattr(self, 't', t)
+        self._start_listen_redis()
         return self
 
     def kill(self):
         self.m.shutdown()
         self.t.join()
-        if self.switch_proxy:
-            self.enable_proxy(mode=False)
+        if self._check_handlers_redis(): self.t_redis.stop()
+        if self.switch_proxy: self.enable_proxy(mode=False)
         self.clear_buffer()
 
     @staticmethod
@@ -143,10 +195,8 @@ class DebugAPI:
             file += 'mapi.log'
         else:
             file += 'other.log'
-        count = 0
         with open(file, 'r') as reader:
             for line in reader.readlines():
-                count += 1
                 yield line
 
     @staticmethod
