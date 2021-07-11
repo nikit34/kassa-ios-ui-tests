@@ -27,7 +27,8 @@ class RecordTimeout(Page):
     def _get_name_current_test():
         inspect_stack = inspect.getouterframes(inspect.currentframe())
         i = 2
-        while not inspect_stack[i].function.startswith('test_'):
+        len_inspect_stack = len(inspect_stack)
+        while not inspect_stack[i].function.startswith('test_') and i < len_inspect_stack:
             i += 1
         return inspect_stack[i].function
 

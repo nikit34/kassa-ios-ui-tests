@@ -36,20 +36,22 @@ def _logging_redis(r2, this, method, url, content):
 
 
 class DebugAPI:
-    def __init__(self, request=True, response=True, mapi_handler=None, other_handler=None, switch_proxy=True, timeout_recard=0):
+    def __init__(self, request=True, response=True, mapi_handler=None, other_handler=None, file_logging=False, switch_proxy=True, timeout_recard=0):
         self.request = request
         self.response = response
         self.mapi_handler = mapi_handler
         self.other_handler = other_handler
         self.switch_proxy = switch_proxy
+        self.file_logging = file_logging
         self.timeout_recard = timeout_recard
         self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/'
 
     class AddonReqRes:
-        def __init__(self, timeout_recard):
+        def __init__(self, timeout_recard, file_logging=False):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
             self.r2 = redis.Redis(host='localhost', port=6379, db=0)
+            self.file_logging = file_logging
 
         def request(self, flow):
             this = 'request'
@@ -57,7 +59,7 @@ class DebugAPI:
             url = flow.request.url
             content = flow.request.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                # _logging(this, method, url, content)
+                if self.file_logging: _logging(this, method, url, content)
                 _logging_redis(self.r2, this, method, url, content)
 
         def response(self, flow):
@@ -66,14 +68,15 @@ class DebugAPI:
             url = flow.request.url
             content = flow.response.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                # _logging(this, method, url, content)
+                if self.file_logging: _logging(this, method, url, content)
                 _logging_redis(self.r2, this, method, url, content)
 
     class AddonReq:
-        def __init__(self, timeout_recard):
+        def __init__(self, timeout_recard, file_logging=False):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
             self.r2 = redis.Redis(host='localhost', port=6379, db=0)
+            self.file_logging = file_logging
 
         def request(self, flow):
             this = 'request'
@@ -81,14 +84,15 @@ class DebugAPI:
             url = flow.request.url
             content = flow.request.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                # _logging(this, method, url, content)
+                if self.file_logging: _logging(this, method, url, content)
                 _logging_redis(self.r2, this, method, url, content)
 
     class AddonRes:
-        def __init__(self, timeout_recard):
+        def __init__(self, timeout_recard, file_logging=False):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
             self.r2 = redis.Redis(host='localhost', port=6379, db=0)
+            self.file_logging = file_logging
 
         def response(self, flow):
             this = 'response'
@@ -96,7 +100,7 @@ class DebugAPI:
             url = flow.request.url
             content = flow.response.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
-                # _logging(this, method, url, content)
+                if self.file_logging: _logging(this, method, url, content)
                 _logging_redis(self.r2, this, method, url, content)
 
     @staticmethod
@@ -119,6 +123,7 @@ class DebugAPI:
     def _connect_redis(self):
         r1 = redis.Redis(host='localhost', port=6379, db=0)
         p1 = r1.pubsub()
+        setattr(self, 'r1', r1)
         setattr(self, 'p1', p1)
 
     def _start_listen_redis(self):
@@ -160,11 +165,11 @@ class DebugAPI:
             m.addons.add(self.AddonRes(self.timeout_recard))
         else:
             raise KeyError('[ERROR] Addon will not be exist')
-        self._start_logging()
+        if self.file_logging: self._start_logging()
 
     @classmethod
-    def run(cls, request=True, response=True, mapi_handler=None, other_handler=None, switch_proxy=True, timeout_recard=0):
-        self = cls(request, response, mapi_handler, other_handler, switch_proxy, timeout_recard)
+    def run(cls, request=True, response=True, mapi_handler=None, other_handler=None, file_logging=False, switch_proxy=True, timeout_recard=0):
+        self = cls(request, response, mapi_handler, other_handler, file_logging, switch_proxy, timeout_recard)
         if self.switch_proxy: self.enable_proxy(mode=True)
         m = self._setup()
         loop = asyncio.get_event_loop()
@@ -178,9 +183,13 @@ class DebugAPI:
     def kill(self):
         self.m.shutdown()
         self.t.join()
-        if self._check_handlers_redis(): self.t_redis.stop()
+        if self._check_handlers_redis(): self._kill_redis()
         if self.switch_proxy: self.enable_proxy(mode=False)
-        self.clear_buffer()
+        if self.file_logging: self.clear_buffer()
+
+    def _kill_redis(self):
+        self.r1.flushall()
+        self.t_redis.stop()
 
     @staticmethod
     def enable_proxy(mode=True):

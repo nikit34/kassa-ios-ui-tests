@@ -23,7 +23,6 @@ class Test_001_ShedulePage:
     def teardown_class(cls):
         dbg_api = DebugAPI()
         dbg_api.enable_proxy(mode=False)
-        dbg_api.clear_buffer()
 
     def test_001_elements_exists(self, driver):
         """тапнуть на фичерс,

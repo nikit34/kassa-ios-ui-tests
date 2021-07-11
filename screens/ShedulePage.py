@@ -25,7 +25,7 @@ class ShedulePage(RecordTimeout, Wait):
 
     @staticmethod
     def get_content_creations_movie_schedule(msg):
-        req_line = msg['data']
+        req_line = msg['data'].decode("utf-8")
         sep_req_line = req_line.split(';', 4)
         if len(sep_req_line) == 5 \
                 and sep_req_line[1] == 'response' \
@@ -134,10 +134,11 @@ class ShedulePage(RecordTimeout, Wait):
 
     def check_rows_filters(self, msg):
         content = self.get_content_creations_movie_schedule(msg)
-        first_row_filters = self.get_first_row_filters(content)
-        self.check_first_row_filters(first_row_filters)
-        second_row_filters = self.get_second_row_filters(content, self.get_datetime_options)
-        self.check_second_row_filters(second_row_filters)
+        if content is not None:
+            first_row_filters = self.get_first_row_filters(content)
+            self.check_first_row_filters(first_row_filters)
+            second_row_filters = self.get_second_row_filters(content, self.get_datetime_options)
+            self.check_second_row_filters(second_row_filters)
 
     @staticmethod
     def get_tickets(content):
