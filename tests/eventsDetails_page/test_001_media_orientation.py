@@ -22,7 +22,7 @@ class Test_001_MoviePage:
         тапнуть на превью любого мероприятия
         Перейти в галерею внутри карточки мероприятия, повернуть девайс
         Выйти из галереи"""
-        dbg_api = DebugAPI.run(request=False, response=True, switch_proxy=True)
+        dbg_api = DebugAPI.run(response=True, switch_proxy=True)
         try:
             with allure.step('MoviesPage'):
                 self.movie_page = MoviesPage(driver)

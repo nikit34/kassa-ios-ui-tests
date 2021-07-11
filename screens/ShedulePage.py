@@ -208,7 +208,7 @@ class ShedulePage(RecordTimeout, Wait):
             else:
                 raise ValueError("[FAILED] There are sessions for other days")
 
-    def _click_next_second_filter(self, text_locator, text_split_second_filter_selector, datetime_options):
+    def _click_next_second_filter(self, text_locator, text_split_second_filter_selector, datetime_options, i):
         text_locator[1] = text_split_second_filter_selector[0] + '"' + str(datetime_options[i + 1].day) + '"' + \
                           text_split_second_filter_selector[2]
         elem = self.find_element(*text_locator)
@@ -220,7 +220,7 @@ class ShedulePage(RecordTimeout, Wait):
         len_section_options = 4
         for i in range(len_section_options):
             self._search_ticket_by_datetime_options(tickets, datetime_options, i)
-            self._click_next_second_filter(text_locator, text_split_second_filter_selector, datetime_options)
+            self._click_next_second_filter(text_locator, text_split_second_filter_selector, datetime_options, i)
             content = self.get_content_creations_movie_schedule(dbg_api)
             tickets = self.get_tickets(content)
             self.compare_date(datetime_options, tickets, dbg_api)
