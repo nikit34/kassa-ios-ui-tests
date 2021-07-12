@@ -182,6 +182,7 @@ class DebugAPI:
 
     def kill(self):
         self.m.shutdown()
+        if self.t.open_loop: self.t.open_loop = False
         self.t.join()
         if self._check_handlers_redis(): self._kill_redis()
         if self.switch_proxy: self.enable_proxy(mode=False)
