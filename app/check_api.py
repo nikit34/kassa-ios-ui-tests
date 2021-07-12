@@ -24,3 +24,8 @@ class CheckAPI:
             elif params_after in params_part_line[0]:
                 return True
         return False
+
+
+# TODO: class HandlersAPI - move already writing handlers and create new
+
+# TODO: create RedisServer, RedisClient classes, separate logic from debug_api.py
