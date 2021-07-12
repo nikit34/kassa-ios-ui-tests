@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, date, time
 from time import sleep
 import cv2
 import numpy as np
@@ -92,14 +93,20 @@ class MoviesDetailsPage(RecordTimeout, Wait):
             return True
         return False
 
-    def check_img_view(self, dbg_api, url_pattern=''):
-        for line in dbg_api.read_buffer(name_file='mapi.log'):
-            if CheckAPI.check_single_page_url(url_pattern, line, num_after=6):
-                url_part, content_part = line.split(';', 5)[3:]
-                if self._check_images_url(url_part, url_pattern):
-                    if '[]' in content_part :
-                        return False
-                    return True
-        raise ValueError(f'{url_pattern} has not been found')
+    def url_creations_movie_filter(self, msg):
+        line = msg['data'].decode('utf-8')
+        if CheckAPI.check_single_page_url('/creations/movie/', line, num_after=6):
+            url_part, content_part = line.split(';', 5)[3:]
+            if self._check_images_url(url_part, '/creations/movie/') and '[]' != content_part:
+                with open('../../app/redis_filter.log', 'w') as f:
+                    f.write(line)
 
-
+    @staticmethod
+    def check_img_view(dbg_api):
+        for line in dbg_api.read_buffer(name_file='redis_filter.log'):
+            str_datetime = line.split(';', 1)[0]
+            logging_time = datetime.strptime(str_datetime, '%H:%M:%S')
+            currented_time = datetime.now() - timedelta(seconds=5)
+            if currented_time.time() < logging_time.time():
+                return True
+        return False

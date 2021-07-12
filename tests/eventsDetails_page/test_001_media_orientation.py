@@ -22,7 +22,8 @@ class Test_001_MoviePage:
         тапнуть на превью любого мероприятия
         Перейти в галерею внутри карточки мероприятия, повернуть девайс
         Выйти из галереи"""
-        dbg_api = DebugAPI.run(response=True, switch_proxy=True)
+        self.event_detail_page = MoviesDetailsPage(driver)
+        dbg_api = DebugAPI.run(response=True, mapi_handler=self.event_detail_page.url_creations_movie_filter)
         try:
             with allure.step('MoviesPage'):
                 self.movie_page = MoviesPage(driver)
@@ -30,10 +31,9 @@ class Test_001_MoviePage:
                 sleep(5)
                 self.movie_page.click(*self.movies_locators.img_row_top)
             with allure.step('MoviesDetailsPage'):
-                self.event_detail_page = MoviesDetailsPage(driver)
                 self.event_detail_page.set_custom_wait(10)
                 sleep(7)
-                if self.event_detail_page.check_img_view(dbg_api, '/creations/movie/'):
+                if self.event_detail_page.check_img_view(dbg_api):
                     self.event_detail_page.click(*self.movies_details_locators.img_gallery)
                     self.event_detail_page.check_img_gallery_orientation()
         finally:
