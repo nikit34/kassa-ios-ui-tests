@@ -106,10 +106,7 @@ class DebugAPI:
     @staticmethod
     def _loop_in_thread(loop, m):
         asyncio.set_event_loop(loop)
-        t = threading.currentThread()
-        while getattr(t, "open_loop", True):
-            m.run_loop(loop.run_forever)
-        loop.stop()
+        m.run_loop(loop.run_forever)
 
     def _setup(self):
         options = Options(listen_host='0.0.0.0', listen_port=8080, http2=True)
@@ -175,23 +172,16 @@ class DebugAPI:
         loop = asyncio.get_event_loop()
         t = threading.Thread(target=self._loop_in_thread, args=(loop, m))
         t.start()
-        setattr(self, 'm', m)
         setattr(self, 't', t)
+        setattr(self, 'm', m)
         self._start_listen_redis()
         return self
 
     def kill(self):
-        self.m.shutdown()
-        self.t.open_loop = False
-        if self._check_handlers_redis(): self._kill_redis()
-        self.t.join()
         if self.switch_proxy: self.enable_proxy(mode=False)
+        self._kill_mitmproxy()
+        if self._check_handlers_redis(): self._kill_redis()
         if self.file_logging: self.clear_buffer()
-
-    def _kill_redis(self):
-        self.r1.flushall()
-        self.t_redis.stop()
-        self.p1.close()
 
     @staticmethod
     def enable_proxy(mode=True):
@@ -199,6 +189,14 @@ class DebugAPI:
             os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxy Wi-Fi 0.0.0.0 8080')
         else:
             os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxystate Wi-Fi off')
+
+    def _kill_mitmproxy(self):
+        self.m.shutdown()
+        self.t.join()
+
+    def _kill_redis(self):
+        self.r1.flushall()
+        self.t_redis.stop()
 
     def clear_buffer(self):
         open(self.path_log + 'mapi.log', 'w').close()

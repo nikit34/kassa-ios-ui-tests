@@ -34,6 +34,8 @@ def pytest_runtest_makereport(item, call):
     result = outcome.get_result()
     if result.when == 'call':
         Testrail.logging_step(result.outcome, result.nodeid, result.duration)
+    elif result.when == 'teardown':
+        os._exit(0)
 
 
 @pytest.fixture(scope='function')
