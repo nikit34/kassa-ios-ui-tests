@@ -87,21 +87,6 @@ class MoviesDetailsPage(RecordTimeout, Wait):
             raise ArithmeticError('[FAILED] check video - it hasn\'t opened in full screen mode')
 
     @staticmethod
-    def _check_images_url(url_part, url_pattern):
-        right_url_part = url_part.split(url_pattern)[1]
-        if right_url_part.endswith('images'):
-            return True
-        return False
-
-    def url_creations_movie_filter(self, msg):
-        line = msg['data'].decode('utf-8')
-        if CheckAPI.check_single_page_url('/creations/movie/', line, num_after=6):
-            url_part, content_part = line.split(';', 5)[3:]
-            if self._check_images_url(url_part, '/creations/movie/') and '[]' != content_part:
-                with open('../../app/redis_filter.log', 'w') as f:
-                    f.write(line)
-
-    @staticmethod
     def check_img_view(dbg_api):
         for line in dbg_api.read_buffer(name_file='redis_filter.log'):
             str_datetime = line.split(';', 1)[0]

@@ -25,7 +25,36 @@ class CheckAPI:
                 return True
         return False
 
+    @staticmethod
+    def _check_images_url(url_part, url_pattern):
+        right_url_part = url_part.split(url_pattern)[1]
+        if right_url_part.endswith('images'):
+            return True
+        return False
 
-# TODO: class HandlersAPI - move already writing handlers and create new
+
+class HandlersAPI:
+
+    @staticmethod
+    def url_creations_movie_filter(msg):
+        line = msg['data'].decode('utf-8')
+        if CheckAPI.check_single_page_url('/creations/movie/', line, num_after=6):
+            url_part, content_part = line.split(';', 5)[3:]
+            if CheckAPI._check_images_url(url_part, '/creations/movie/') and '[]' != content_part:
+                with open('../../app/redis_filter.log', 'w') as f:
+                    f.write(line)
+
+    @staticmethod
+    def url_creations_movie_schedule_filter(msg):
+        req_line = msg['data'].decode('utf-8')
+        sep_req_line = req_line.split(';', 4)
+        if len(sep_req_line) == 5 \
+                and sep_req_line[1] == 'response' \
+                and sep_req_line[2] == 'GET' \
+                and '/creations/movie/' in sep_req_line[3] \
+                and '/schedule' in sep_req_line[3]:
+            with open('../../app/redis_filter.log', 'w') as f:
+                f.write(req_line)
+
 
 # TODO: create RedisServer, RedisClient classes, separate logic from debug_api.py

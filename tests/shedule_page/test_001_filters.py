@@ -3,6 +3,7 @@ import pytest
 import allure
 
 from app.debug_api import DebugAPI
+from app.check_api import HandlersAPI
 from locators.movies_details_locators import MoviesDetailsPageLocators
 from locators.movies_locators import MoviesPageLocators
 from locators.shedule_locators import ShedulePageLocators
@@ -43,8 +44,7 @@ class Test_001_ShedulePage:
         тапнуть на смотреть расписание,
         проверить соответствие фильтров и ответа сервера
         проверить порядок фильтров"""
-        self.shedule_page = ShedulePage(driver)
-        dbg_api = DebugAPI.run(request=False, mapi_handler=self.shedule_page.url_creations_movie_schedule_filter)
+        dbg_api = DebugAPI.run(request=False, mapi_handler=HandlersAPI.url_creations_movie_schedule_filter)
         try:
             with allure.step('MoviesPage'):
                 self.movie_page = MoviesPage(driver)
@@ -57,6 +57,7 @@ class Test_001_ShedulePage:
                 sleep(5)
                 self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             with allure.step('ShedulePage'):
+                self.shedule_page = ShedulePage(driver)
                 self.shedule_page.set_custom_wait(10)
                 sleep(5)
                 self.shedule_page.check_rows_filters(dbg_api)
@@ -67,8 +68,7 @@ class Test_001_ShedulePage:
         """тапнуть на фичерс,
         тапнуть на смотреть расписание,
         проверять соответствие времени на билетах с выставленными фильтрами"""
-        self.shedule_page = ShedulePage(driver)
-        dbg_api = DebugAPI.run(request=False, mapi_handler=self.shedule_page.url_creations_movie_schedule_filter)
+        dbg_api = DebugAPI.run(request=False, mapi_handler=HandlersAPI.url_creations_movie_schedule_filter)
         try:
             with allure.step('MoviesPage'):
                 self.movie_page = MoviesPage(driver)
@@ -80,6 +80,7 @@ class Test_001_ShedulePage:
                 self.event_detail_page.set_custom_wait(10)
                 self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
             with allure.step('ShedulePage'):
+                self.shedule_page = ShedulePage(driver)
                 self.shedule_page.set_custom_wait(10)
                 sleep(2)
                 self.shedule_page.compare_tickets_datetime_options_second_filter(dbg_api)

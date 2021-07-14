@@ -231,15 +231,3 @@ class ShedulePage(RecordTimeout, Wait):
         tickets = self.get_tickets(content)
         datetime_options.sort()
         self.compare_date(datetime_options, tickets, dbg_api)
-
-    @staticmethod
-    def url_creations_movie_schedule_filter(msg):
-        req_line = msg['data'].decode('utf-8')
-        sep_req_line = req_line.split(';', 4)
-        if len(sep_req_line) == 5 \
-                and sep_req_line[1] == 'response' \
-                and sep_req_line[2] == 'GET' \
-                and '/creations/movie/' in sep_req_line[3] \
-                and '/schedule' in sep_req_line[3]:
-            with open('../../app/redis_filter.log', 'w') as f:
-                f.write(req_line)
