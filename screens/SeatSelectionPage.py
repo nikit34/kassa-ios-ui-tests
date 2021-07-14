@@ -141,7 +141,7 @@ class SeatSelectionPage(RecordTimeout, Wait):
         last_wait = self.get_last_wait()
         self.set_custom_wait(5)
 
-        selector_seat.validate_select_seat(path, clusters)
+        # selector_seat.validate_select_seat(path, clusters)
 
         act_selector = self.ActionSelector(self.driver, self.seat_selection_locators.ACCESSIBILITY_ID)
         if not act_selector.tap_places(clusters, count_places=count_places):

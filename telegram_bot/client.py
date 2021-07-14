@@ -36,6 +36,7 @@ class TGClient:
         except KeyError as error:
             print("TELEGRAM_USERS_ID - environment variable dont setup")
             error.args += ('TELEGRAM_USERS_ID - environment variable dont setup',)
+            raise error
         for i in range(0, len(solid_users_id), 9):
             yield solid_users_id[i: i + 9]
 
