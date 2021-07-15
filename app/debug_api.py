@@ -15,7 +15,7 @@ from logging_api.redis_api import RedisServer, RedisClient
 
 
 def _logging(this, method, url, content=''):
-    path_dir_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/'
+    path_dir_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/logs/'
     logging_time = datetime.now().strftime("%H:%M:%S")
     if 'mapi.kassa.rambler.ru' in url:
         path_log = path_dir_log + 'mapi.log'
@@ -36,7 +36,7 @@ class DebugAPI:
         self.switch_proxy = switch_proxy
         self.file_logging = file_logging
         self.timeout_recard = timeout_recard
-        self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/app/'
+        self.path_log = os.path.abspath(os.path.join(os.path.dirname(__file__), "..")) + '/logs/'
 
     class AddonReqRes:
         def __init__(self, timeout_recard, file_logging=False):
@@ -148,13 +148,13 @@ class DebugAPI:
         if self.switch_proxy: self.enable_proxy(mode=False)
 
     def _kill_mitmproxy(self):
+        self._reconnect_socket('10.60.20.152', 8080)
         self.m.shutdown()
-        self._reconnect_socket('', 8080)
         self.t.join()
 
     @staticmethod
     def _reconnect_socket(host: str, port: int):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
         try:
             s.connect((host, port))
         except Exception: pass
@@ -163,13 +163,13 @@ class DebugAPI:
     def clear_buffer(self):
         open(self.path_log + 'mapi.log', 'w').close()
         open(self.path_log + 'other.log', 'w').close()
+        open(self.path_log + 'redis_filter.log', 'w').close()
 
     @staticmethod
     def enable_proxy(mode=True):
-        if mode:
-            os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxy Wi-Fi 0.0.0.0 8080')
-        else:
-            os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxystate Wi-Fi off')
+        cmd = f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup '
+        cmd += '-setsecurewebproxy Wi-Fi 0.0.0.0 8080' if mode else '-setsecurewebproxystate Wi-Fi off'
+        os.system(cmd)
 
     def read_buffer(self, name_file=None):
         file = self.path_log

@@ -80,7 +80,6 @@ env.bak/
 venv.bak/
 
 logs/
-testrail_log.log
 
 app/Kassa.app
 
@@ -89,7 +88,7 @@ screenshots/
 
 tank_errors.log
 
-app/mapi.log
-app/other.log
-logging_api/redis_filter.log
+logs/mapi.log
+logs/other.log
+logs/redis_filter.log
 /allure-results/

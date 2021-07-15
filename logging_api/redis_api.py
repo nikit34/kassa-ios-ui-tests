@@ -40,6 +40,7 @@ class RedisServer:
         self.item.flushall()
         self.t_redis.stop()
 
+
 class RedisClient:
     def __init__(self, host='localhost', port=6379, db=0):
         self.item = redis.Redis(host=host, port=port, db=db)
