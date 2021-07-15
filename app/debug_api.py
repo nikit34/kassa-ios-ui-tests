@@ -1,4 +1,5 @@
 import os
+import socket
 from datetime import datetime
 from mitmproxy.options import Options
 from mitmproxy.proxy.config import ProxyConfig
@@ -178,21 +179,23 @@ class DebugAPI:
         return self
 
     def kill(self):
-        if self.switch_proxy: self.enable_proxy(mode=False)
         self._kill_mitmproxy()
         if self._check_handlers_redis(): self._kill_redis()
         if self.file_logging: self.clear_buffer()
-
-    @staticmethod
-    def enable_proxy(mode=True):
-        if mode:
-            os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxy Wi-Fi 0.0.0.0 8080')
-        else:
-            os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxystate Wi-Fi off')
+        if self.switch_proxy: self.enable_proxy(mode=False)
 
     def _kill_mitmproxy(self):
         self.m.shutdown()
+        self._reconnect_socket('', 8080)
         self.t.join()
+
+    @staticmethod
+    def _reconnect_socket(host: str, port: int):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            s.connect((host, port))
+        except Exception: pass
+        s.close()
 
     def _kill_redis(self):
         self.r1.flushall()
@@ -201,6 +204,13 @@ class DebugAPI:
     def clear_buffer(self):
         open(self.path_log + 'mapi.log', 'w').close()
         open(self.path_log + 'other.log', 'w').close()
+
+    @staticmethod
+    def enable_proxy(mode=True):
+        if mode:
+            os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxy Wi-Fi 0.0.0.0 8080')
+        else:
+            os.system(f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup -setsecurewebproxystate Wi-Fi off')
 
     def read_buffer(self, name_file=None):
         file = self.path_log

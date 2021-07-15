@@ -24,7 +24,7 @@ def pytest_addoption(parser):
 
 def pytest_configure():
     connect_db()
-    Testrail.logging_start()
+    # Testrail.logging_start()
     pytest.count_call_unique_func = 0
 
 
@@ -34,8 +34,6 @@ def pytest_runtest_makereport(item, call):
     result = outcome.get_result()
     if result.when == 'call':
         Testrail.logging_step(result.outcome, result.nodeid, result.duration)
-    elif result.when == 'teardown':
-        os._exit(0)
 
 
 @pytest.fixture(scope='function')

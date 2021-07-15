@@ -20,24 +20,24 @@ class Test_001_ShedulePage:
         cls.shedule_locators = ShedulePageLocators()
         cls.event_detail_page_locators = MoviesDetailsPageLocators()
 
-    # def test_001_elements_exists(self, driver):
-    #     """тапнуть на фичерс,
-    #     тапнуть на смотреть расписание,
-    #     найти кнопку отмены, кнопку карты, поле поиска"""
-    #     with allure.step('MoviesPage'):
-    #         self.movie_page = MoviesPage(driver)
-    #         self.movie_page.set_custom_wait(10)
-    #         self.movie_page.act.click_by_coords(50, 30)
-    #     with allure.step('EventDetailsPage'):
-    #         self.event_detail_page = MoviesDetailsPage(driver)
-    #         self.event_detail_page.set_custom_wait(10)
-    #         self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
-    #     with allure.step('ShedulePage'):
-    #         self.shedule_page = ShedulePage(driver)
-    #         self.shedule_page.set_custom_wait(10)
-    #         self.shedule_page.find_element(*self.shedule_locators.btn_back)
-    #         self.shedule_page.find_element(*self.shedule_locators.btn_map)
-    #         self.shedule_page.find_element(*self.shedule_locators.search_field)
+    def test_001_elements_exists(self, driver):
+        """тапнуть на фичерс,
+        тапнуть на смотреть расписание,
+        найти кнопку отмены, кнопку карты, поле поиска"""
+        with allure.step('MoviesPage'):
+            self.movie_page = MoviesPage(driver)
+            self.movie_page.set_custom_wait(10)
+            self.movie_page.act.click_by_coords(50, 30)
+        with allure.step('EventDetailsPage'):
+            self.event_detail_page = MoviesDetailsPage(driver)
+            self.event_detail_page.set_custom_wait(10)
+            self.event_detail_page.click(*self.event_detail_page_locators.btn_view_timetable)
+        with allure.step('ShedulePage'):
+            self.shedule_page = ShedulePage(driver)
+            self.shedule_page.set_custom_wait(10)
+            self.shedule_page.find_element(*self.shedule_locators.btn_back)
+            self.shedule_page.find_element(*self.shedule_locators.btn_map)
+            self.shedule_page.find_element(*self.shedule_locators.search_field)
 
     def test_002_valid_filters(self, driver):
         """тапнуть на фичерс,
