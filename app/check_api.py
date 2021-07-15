@@ -41,7 +41,7 @@ class HandlersAPI:
         if CheckAPI.check_single_page_url('/creations/movie/', line, num_after=6):
             url_part, content_part = line.split(';', 5)[3:]
             if CheckAPI._check_images_url(url_part, '/creations/movie/') and '[]' != content_part:
-                with open('../../app/redis_filter.log', 'w') as f:
+                with open('../../logging_api/redis_filter.log', 'w') as f:
                     f.write(line)
 
     @staticmethod
@@ -51,10 +51,9 @@ class HandlersAPI:
         if len(sep_req_line) == 5 \
                 and sep_req_line[1] == 'response' \
                 and sep_req_line[2] == 'GET' \
-                and '/creations/movie/' in sep_req_line[3] \
+                and '/creaions/movie/' in sep_req_line[3] \
                 and '/schedule' in sep_req_line[3]:
-            with open('../../app/redis_filter.log', 'w') as f:
+            with open('../../logging_api/redis_filter.log', 'w') as f:
                 f.write(req_line)
 
 
-# TODO: create RedisServer, RedisClient classes, separate logic from debug_api.py

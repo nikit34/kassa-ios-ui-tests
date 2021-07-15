@@ -9,7 +9,9 @@ import threading
 import asyncio
 from time import time
 import json
-import redis
+
+
+from logging_api.redis_api import RedisServer, RedisClient
 
 
 def _logging(this, method, url, content=''):
@@ -23,17 +25,6 @@ def _logging(this, method, url, content=''):
         line = logging_time + ';' + this + ';' + method + ';' + url + '\n'
     with open(path_log, 'a+') as f:
         f.write(line)
-
-
-def _logging_redis(r2, this, method, url, content):
-    logging_time = datetime.now().strftime("%H:%M:%S")
-    if 'mapi.kassa.rambler.ru' in url:
-        line = logging_time + ';' + this + ';' + method + ';' + url + ';' + content
-        channel = 'mapi_log_channel'
-    else:
-        line = logging_time + ';' + this + ';' + method + ';' + url
-        channel = 'other_log_channel'
-    r2.publish(channel, line)
 
 
 class DebugAPI:
@@ -51,7 +42,7 @@ class DebugAPI:
         def __init__(self, timeout_recard, file_logging=False):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
-            self.r2 = redis.Redis(host='localhost', port=6379, db=0)
+            self.rc = RedisClient(host='localhost', port=6379, db=0)
             self.file_logging = file_logging
 
         def request(self, flow):
@@ -61,7 +52,7 @@ class DebugAPI:
             content = flow.request.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
                 if self.file_logging: _logging(this, method, url, content)
-                _logging_redis(self.r2, this, method, url, content)
+                self.rc.logging(this, method, url, content)
 
         def response(self, flow):
             this = 'response'
@@ -70,13 +61,13 @@ class DebugAPI:
             content = flow.response.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
                 if self.file_logging: _logging(this, method, url, content)
-                _logging_redis(self.r2, this, method, url, content)
+                self.rc.logging(this, method, url, content)
 
     class AddonReq:
         def __init__(self, timeout_recard, file_logging=False):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
-            self.r2 = redis.Redis(host='localhost', port=6379, db=0)
+            self.rc = RedisClient(host='localhost', port=6379, db=0)
             self.file_logging = file_logging
 
         def request(self, flow):
@@ -86,13 +77,13 @@ class DebugAPI:
             content = flow.request.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
                 if self.file_logging: _logging(this, method, url, content)
-                _logging_redis(self.r2, this, method, url, content)
+                self.rc.logging(this, method, url, content)
 
     class AddonRes:
         def __init__(self, timeout_recard, file_logging=False):
             self.timeout_recard = timeout_recard
             self.timeout_now = time()
-            self.r2 = redis.Redis(host='localhost', port=6379, db=0)
+            self.rc = RedisClient(host='localhost', port=6379, db=0)
             self.file_logging = file_logging
 
         def response(self, flow):
@@ -102,7 +93,7 @@ class DebugAPI:
             content = flow.response.content.decode('UTF-8')
             if time() - self.timeout_now >= self.timeout_recard:
                 if self.file_logging: _logging(this, method, url, content)
-                _logging_redis(self.r2, this, method, url, content)
+                self.rc.logging(this, method, url, content)
 
     @staticmethod
     def _loop_in_thread(loop, m):
@@ -115,39 +106,11 @@ class DebugAPI:
         config = ProxyConfig(options)
         m.server = ProxyServer(config)
         self._addon_setup(m)
-        if self._check_handlers_redis(): self._connect_redis()
+        if RedisServer.check_handlers(self.mapi_handler, self.other_handler):
+            redis_server = RedisServer()
+            redis_server.connect_pubsub()
+            setattr(self, 'redis_server', redis_server)
         return m
-
-    def _connect_redis(self):
-        r1 = redis.Redis(host='localhost', port=6379, db=0)
-        p1 = r1.pubsub()
-        setattr(self, 'r1', r1)
-        setattr(self, 'p1', p1)
-
-    def _start_listen_redis(self):
-        channels = self._check_handlers_redis()
-        channel_handler = {
-            'mapi_log_channel': self.mapi_handler,
-            'other_log_channel': self.other_handler,
-        }
-        if channels:
-            if isinstance(channels, tuple):
-                for channel in channels:
-                    self.p1.subscribe(**{channel: channel_handler[channel]})
-            elif isinstance(channels, str):
-                self.p1.subscribe(**{channels: channel_handler[channels]})
-            t_redis = self.p1.run_in_thread(sleep_time=0.001)
-            setattr(self, 't_redis', t_redis)
-
-    def _check_handlers_redis(self):
-        if self.mapi_handler is not None and self.other_handler is not None:
-            return 'mapi_log_channel', 'other_log_channel'
-        elif self.mapi_handler is not None:
-            return 'mapi_log_channel'
-        elif self.other_handler is not None:
-            return 'other_log_channel'
-        else:
-            return False
 
     def _start_logging(self):
         start_time = datetime.now().strftime("%H:%M:%S")
@@ -175,12 +138,12 @@ class DebugAPI:
         t.start()
         setattr(self, 't', t)
         setattr(self, 'm', m)
-        self._start_listen_redis()
+        if hasattr(self, 'redis_server'): self.redis_server.start_listen(self.mapi_handler, self.other_handler)
         return self
 
     def kill(self):
         self._kill_mitmproxy()
-        if self._check_handlers_redis(): self._kill_redis()
+        if hasattr(self, 'redis_server'): self.redis_server.kill_redis()
         if self.file_logging: self.clear_buffer()
         if self.switch_proxy: self.enable_proxy(mode=False)
 
@@ -196,10 +159,6 @@ class DebugAPI:
             s.connect((host, port))
         except Exception: pass
         s.close()
-
-    def _kill_redis(self):
-        self.r1.flushall()
-        self.t_redis.stop()
 
     def clear_buffer(self):
         open(self.path_log + 'mapi.log', 'w').close()

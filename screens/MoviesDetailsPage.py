@@ -69,7 +69,7 @@ class MoviesDetailsPage(RecordTimeout, Wait):
         except AssertionError as error:
             allure.attach(self.driver.get_screenshot_as_png(), name='after_rotate', attachment_type=AttachmentType.PNG)
             allure.attach(self.driver.get_screenshot_as_png(), name='before_rotate', attachment_type=AttachmentType.PNG)
-            error.args += ('logging error', '[FAILED] check image - it hasn\'t been rotated')
+            error.args += ('logging_api error', '[FAILED] check image - it hasn\'t been rotated')
             raise ArithmeticError('[FAILED] check image - it hasn\'t been rotated')
 
     def check_video_opened_full_mode(self):
@@ -83,7 +83,7 @@ class MoviesDetailsPage(RecordTimeout, Wait):
             del screenshot.file
         except AssertionError as error:
             allure.attach(self.driver.get_screenshot_as_png(), name='screenshot_video', attachment_type=AttachmentType.PNG)
-            error.args += ('logging error', '[FAILED] check video - it hasn\'t opened in full screen mode')
+            error.args += ('logging_api error', '[FAILED] check video - it hasn\'t opened in full screen mode')
             raise ArithmeticError('[FAILED] check video - it hasn\'t opened in full screen mode')
 
     @staticmethod
