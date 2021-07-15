@@ -92,3 +92,4 @@ tank_errors.log
 app/mapi.log
 app/other.log
 logging_api/redis_filter.log
+/allure-results/

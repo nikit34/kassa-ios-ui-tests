@@ -22,10 +22,11 @@ def pytest_addoption(parser):
     )
 
 
-def pytest_configure():
+def pytest_configure(config):
     connect_db()
-    # Testrail.logging_start()
     pytest.count_call_unique_func = 0
+    if config.args[0] == './tests':
+        Testrail.logging_start()
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
