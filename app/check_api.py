@@ -51,7 +51,7 @@ class HandlersAPI:
         if len(sep_req_line) == 5 \
                 and sep_req_line[1] == 'response' \
                 and sep_req_line[2] == 'GET' \
-                and '/creaions/movie/' in sep_req_line[3] \
+                and '/creations/movie/' in sep_req_line[3] \
                 and '/schedule' in sep_req_line[3]:
             with open('../../logging_api/redis_filter.log', 'w') as f:
                 f.write(req_line)
