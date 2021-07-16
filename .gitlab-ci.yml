@@ -169,6 +169,7 @@ pytest_job:
   tags:
     - ios-host
   before_script:
+    - echo $IOS_HOST_PASSWORD | chmod 777 ./logs/testrail.log
     - rm -r ./allure-results && mkdir ./allure-results || mkdir ./allure-results || true
   script:
     - python3 -m pytest -v -s -l --tb=short ./tests --alluredir=./allure-results --cov=./app --host

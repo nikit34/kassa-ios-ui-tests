@@ -8,6 +8,7 @@ from testrail_api import TestRailAPI
 
 class Testrail:
     client = None
+    path_log = os.path.abspath(os.path.dirname(__file__)) + '/logs/'
 
     @classmethod
     def logging_start(cls):
@@ -49,9 +50,8 @@ class Testrail:
         self._clear_result_step()
         pytest.case_id = case_id[1:] if case_id.startswith('C') else case_id
 
-    @staticmethod
-    def _clear_result_step():
-        with open('../../logs/testrail.log', 'r+') as file:
+    def _clear_result_step(self):
+        with open(self.path_log + 'testrail.log', 'r+') as file:
             file.truncate(0)
 
     @classmethod
@@ -61,9 +61,8 @@ class Testrail:
         duration = str(round(duration, 2))
         self._write_result_step(outcome=outcome, comment=nodeid, duration=duration)
 
-    @staticmethod
-    def _write_result_step(outcome: str, comment: str, duration: str):
-        with open('../../logs/testrail.log', 'a', encoding='utf-8') as file:
+    def _write_result_step(self, outcome: str, comment: str, duration: str):
+        with open(self.path_log + 'testrail.log', 'a', encoding='utf-8') as file:
             file.write(outcome + ',' + comment + ',' + duration + '\n')
 
     @classmethod
@@ -87,9 +86,8 @@ class Testrail:
         self.client.results.add_result_for_case(run_id=pytest.run_id, case_id=pytest.case_id, status_id=actual_status_id, comment=comment, elapsed=elapsed, assignedto_id=187)
         self._clear_result_step()
 
-    @staticmethod
-    def _read_result_step():
-        with open('../../logs/testrail.log', 'r', encoding='utf-8') as file:
+    def _read_result_step(self):
+        with open(self.path_log + 'testrail.log', 'r', encoding='utf-8') as file:
             for line in file.readlines():
                 yield line.split(',')
 

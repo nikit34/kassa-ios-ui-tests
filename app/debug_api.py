@@ -7,7 +7,6 @@ from mitmproxy.tools.dump import DumpMaster
 import threading
 import asyncio
 from time import time
-import json
 
 
 from logging_api.redis_api import RedisServer, RedisClient
