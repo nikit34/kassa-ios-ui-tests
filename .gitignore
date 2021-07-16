@@ -79,16 +79,11 @@ ENV/
 env.bak/
 venv.bak/
 
-logs/
+logs/mapi.log
+logs/other.log
+logs/redis_filter.log
 
 app/Kassa.app
 
 allure-results/
 screenshots/
-
-tank_errors.log
-
-logs/mapi.log
-logs/other.log
-logs/redis_filter.log
-/allure-results/
