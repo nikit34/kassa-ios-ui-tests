@@ -8,6 +8,7 @@ from screens.MoviesPage import MoviesPage
 from screens.MoviesDetailsPage import MoviesDetailsPage
 from app.debug_api import DebugAPI
 from app.check_api import HandlersAPI
+from utils.internet import enable_proxy
 
 
 @allure.testcase('http://testrail.rambler-co.ru/index.php?/cases/view/712859', 'testrail points: all')
@@ -17,6 +18,10 @@ class Test_001_MoviePage:
     def setup_class(cls):
         cls.movies_locators = MoviesPageLocators()
         cls.movies_details_locators = MoviesDetailsPageLocators()
+
+    @staticmethod
+    def teardown_class(cls):
+        enable_proxy(mode=False)
 
     def test_001_change_screen_orientation(self, driver):
         """На фичере развернуть телефон

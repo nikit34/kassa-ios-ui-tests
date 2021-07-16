@@ -10,6 +10,7 @@ from locators.shedule_locators import ShedulePageLocators
 from screens.MoviesPage import MoviesPage
 from screens.MoviesDetailsPage import MoviesDetailsPage
 from screens.ShedulePage import ShedulePage
+from utils.internet import enable_proxy
 
 
 @pytest.mark.usefixtures('driver')
@@ -19,6 +20,10 @@ class Test_001_ShedulePage:
         cls.movies_locators = MoviesPageLocators()
         cls.shedule_locators = ShedulePageLocators()
         cls.event_detail_page_locators = MoviesDetailsPageLocators()
+
+    @staticmethod
+    def teardown_class(cls):
+        enable_proxy(mode=False)
 
     def test_001_elements_exists(self, driver):
         """тапнуть на фичерс,
@@ -86,3 +91,4 @@ class Test_001_ShedulePage:
                 self.shedule_page.compare_tickets_datetime_options_second_filter(dbg_api)
         finally:
             dbg_api.kill()
+
