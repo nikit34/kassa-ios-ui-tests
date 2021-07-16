@@ -11,6 +11,7 @@ import json
 
 
 from logging_api.redis_api import RedisServer, RedisClient
+from utils.internet import enable_proxy
 
 
 def _logging(this, method, url, content=''):
@@ -131,7 +132,7 @@ class DebugAPI:
     @classmethod
     def run(cls, request=True, response=True, mapi_handler=None, other_handler=None, file_logging=False, switch_proxy=True, timeout_recard=0):
         self = cls(request, response, mapi_handler, other_handler, file_logging, switch_proxy, timeout_recard)
-        if self.switch_proxy: self.enable_proxy(mode=True)
+        if self.switch_proxy: enable_proxy(mode=True)
         m = self._setup()
         loop = asyncio.get_event_loop()
         t = threading.Thread(target=self._loop_in_thread, args=(loop, m))
@@ -145,7 +146,7 @@ class DebugAPI:
         self._kill_mitmproxy()
         if hasattr(self, 'redis_server'): self.redis_server.kill_redis()
         if self.file_logging: self.clear_buffer()
-        if self.switch_proxy: self.enable_proxy(mode=False)
+        if self.switch_proxy: enable_proxy(mode=False)
 
     def _kill_mitmproxy(self):
         self.m.shutdown()
@@ -156,12 +157,6 @@ class DebugAPI:
         open(self.path_log + 'other.log', 'w').close()
         open(self.path_log + 'redis_filter.log', 'w').close()
 
-    @staticmethod
-    def enable_proxy(mode=True):
-        cmd = f'echo "{os.environ["IOS_HOST_PASSWORD"]}" | sudo -S networksetup '
-        cmd += '-setsecurewebproxy Wi-Fi 0.0.0.0 8080' if mode else '-setsecurewebproxystate Wi-Fi off'
-        os.system(cmd)
-
     def read_buffer(self, name_file=None):
         file = self.path_log
         if name_file:
@@ -169,13 +164,6 @@ class DebugAPI:
         with open(file, 'r') as reader:
             for line in reader.readlines():
                 yield line
-
-    @staticmethod
-    def get_content_response(line):
-        split_line = line.split(';', 4)
-        if len(split_line) < 5:
-            raise ValueError('response is not valid')
-        return json.loads(split_line[4])
 
     def keep_buffer(self, old_name='', new_name=''):
         os.rename(self.path_log + old_name, self.path_log + new_name)

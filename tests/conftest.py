@@ -66,5 +66,6 @@ def driver(request):
 def db_session(request):
     yield
     disconnect_db()
+
     os._exit(0)
 
