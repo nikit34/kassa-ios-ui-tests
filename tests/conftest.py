@@ -1,6 +1,5 @@
 import pytest
 import os
-import sys
 from appium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -67,5 +66,5 @@ def driver(request):
 def db_session(request):
     yield
     disconnect_db()
-    sys.exit()
+    os._exit(0)
 

@@ -1,5 +1,4 @@
 import os
-import socket
 from datetime import datetime
 from mitmproxy.options import Options
 from mitmproxy.proxy.config import ProxyConfig
@@ -99,6 +98,7 @@ class DebugAPI:
     def _loop_in_thread(loop, m):
         asyncio.set_event_loop(loop)
         m.run_loop(loop.run_forever)
+        loop.close()
 
     def _setup(self):
         options = Options(listen_host='0.0.0.0', listen_port=8080, http2=True)
@@ -148,17 +148,8 @@ class DebugAPI:
         if self.switch_proxy: self.enable_proxy(mode=False)
 
     def _kill_mitmproxy(self):
-        self._reconnect_socket('10.60.20.152', 8080)
         self.m.shutdown()
         self.t.join()
-
-    @staticmethod
-    def _reconnect_socket(host: str, port: int):
-        s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-        try:
-            s.connect((host, port))
-        except Exception: pass
-        s.close()
 
     def clear_buffer(self):
         open(self.path_log + 'mapi.log', 'w').close()
