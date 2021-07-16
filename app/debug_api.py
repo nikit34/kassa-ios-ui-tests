@@ -98,7 +98,6 @@ class DebugAPI:
     def _loop_in_thread(loop, m):
         asyncio.set_event_loop(loop)
         m.run_loop(loop.run_forever)
-        loop.close()
 
     def _setup(self):
         options = Options(listen_host='0.0.0.0', listen_port=8080, http2=True)
