@@ -172,7 +172,7 @@ pytest_job:
     - echo $IOS_HOST_PASSWORD | chmod 777 ./logs/testrail.log
     - rm -r ./allure-results && mkdir ./allure-results || mkdir ./allure-results || true
   script:
-    - python3 -m pytest -v -s -l --tb=short ./tests --alluredir=./allure-results --cov=./app --host
+    - gtimeout 100m python3 -m pytest -v -s -l --tb=short ./tests --alluredir=./allure-results --cov=./app --host
   after_script:
     - coverage xml
     - killall Appium || true
@@ -250,6 +250,8 @@ upload_job:
   before_script:
     - rm -r ./allure-results.zip || true
   script:
+    - ls
+    - ls ./allure-results
     - zip -r allure-results.zip ./allure-results || true
     - |
       response=$(curl -X POST http://localhost:8080/api/result \
