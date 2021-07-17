@@ -176,6 +176,7 @@ pytest_job:
   after_script:
     - coverage xml
     - killall Appium || true
+    - killall Python || true
     - killall node || true
     - killall Simulator || true
     - echo $IOS_HOST_PASSWORD | sudo -S pkill redis-server || true
@@ -250,8 +251,6 @@ upload_job:
   before_script:
     - rm -r ./allure-results.zip || true
   script:
-    - ls
-    - ls ./allure-results
     - zip -r allure-results.zip ./allure-results || true
     - |
       response=$(curl -X POST http://localhost:8080/api/result \

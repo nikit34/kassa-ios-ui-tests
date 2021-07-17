@@ -133,7 +133,7 @@ class DebugAPI:
         if self.switch_proxy: enable_proxy(mode=True)
         m = self._setup()
         loop = asyncio.get_event_loop()
-        t = threading.Thread(target=self._loop_in_thread, args=(loop, m))
+        t = threading.Thread(target=self._loop_in_thread, args=(loop, m), daemon=True)
         t.start()
         setattr(self, 't', t)
         setattr(self, 'm', m)
