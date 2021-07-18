@@ -197,9 +197,9 @@ history_job:
   tags:
     - ios-host
   before_script:
-    - rm -r ./public && mkdir ./public || mkdir ./public || true
-  script:
+    - mkdir -p ./public/history || true
     - echo $IOS_HOST_PASSWORD | sudo -S chmod 777 ./download_history.sh
+  script:
     - ./download_history.sh
     - ./prepare_executor.sh
   after_script:
