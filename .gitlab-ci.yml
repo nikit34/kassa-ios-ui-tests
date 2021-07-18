@@ -197,7 +197,7 @@ history_job:
   tags:
     - ios-host
   script:
-    - echo $ANDROID_HOST_PASSWORD | sudo -S chmod 777 ./download_history.sh
+    - echo $IOS_HOST_PASSWORD | sudo -S chmod 777 ./download_history.sh
     - ./download_history.sh
     - ls ./allure-results/history  # TODO: dbg
   after_script:
