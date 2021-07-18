@@ -199,7 +199,6 @@ history_job:
   script:
     - echo $IOS_HOST_PASSWORD | sudo -S chmod 777 ./download_history.sh
     - ./download_history.sh
-    - ls ./allure-results/history  # TODO: dbg
   after_script:
     - python3 telegram_bot/client.py -n history_job
   cache:
