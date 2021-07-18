@@ -196,17 +196,12 @@ history_job:
   stage: history
   tags:
     - ios-host
-  before_script:
-    - mkdir -p ./public/history || true
   script:
-    - cp -r ./public/history ./allure-results/history || true
+    - echo $ANDROID_HOST_PASSWORD | sudo -S chmod 777 ./download_history.sh
+    - ./download_history.sh
+    - ls ./allure-results/history  # TODO: dbg
   after_script:
     - python3 telegram_bot/client.py -n history_job
-  artifacts:
-    when: always
-    paths:
-      - ./allure-results
-    expire_in: 3 days
   cache:
     untracked: true
     key: cache
