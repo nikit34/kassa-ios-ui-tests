@@ -55,5 +55,3 @@ class HandlersAPI:
                 and '/schedule' in sep_req_line[3]:
             with open('../../logs/redis_filter.log', 'w') as f:
                 f.write(req_line)
-
-
