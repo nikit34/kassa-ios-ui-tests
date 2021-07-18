@@ -196,9 +196,12 @@ history_job:
   stage: history
   tags:
     - ios-host
+  before_script:
+    - rm -r ./public && mkdir ./public || mkdir ./public || true
   script:
     - echo $IOS_HOST_PASSWORD | sudo -S chmod 777 ./download_history.sh
     - ./download_history.sh
+    - ./prepare_executor.sh
   after_script:
     - python3 telegram_bot/client.py -n history_job
   cache:
