@@ -87,3 +87,5 @@ app/Kassa.app
 
 allure-results/
 screenshots/
+public/
+artifacts.zip
